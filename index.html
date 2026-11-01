@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Episodios de Terranula</title>
+<meta name="description" content="Archivo comunitario de partidas de rol gratuitas para cualquier sistema: terror, terror cósmico, fantasía, aventura épica, comedia y más. A community archive of free tabletop RPG scenarios for any system.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Cinzel:wght@500;700&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+/* Idioma inicial: ?lang= → preferencia guardada → idioma del navegador */
+(function(){
+  var l = null, ok = function(x){ return ["es","en","de","fr","it"].indexOf(x) > -1; };
+  try { l = new URLSearchParams(location.search).get("lang"); } catch(e){}
+  if(!ok(l)){ try { l = localStorage.getItem("et-lang"); } catch(e){} }
+  if(!ok(l)){ var n = String(navigator.language || "es").slice(0,2).toLowerCase(); l = ok(n) ? n : "en"; }
+  document.documentElement.setAttribute("data-lang", l);
+  document.documentElement.lang = l;
+})();
+</script>
+<style>
+/* Episodios de Terranula — misma arquitectura que Códice Errante: portada como libro abierto (castellano en el verso, inglés en el recto) y el resto del archivo en el idioma activo. Fondo negro, letra blanca. */
+:root{
+  color-scheme:dark;
+  --bg:#000; --surface:#0A0A0A; --page:#050505; --ink:#FFFFFF; --muted:rgba(255,255,255,.72); --faint:rgba(255,255,255,.5);
+  --line:#262626; --line2:#4D4D4D; --field:#0F0F0F; --fold:rgba(255,255,255,.07);
+  --display:"New Rocker", "Cinzel", Georgia, serif;
+  --caps:"Cinzel", "Trajan Pro", Georgia, serif;
+  --body:"Alegreya", "Palatino Linotype", Georgia, serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+:root:not([data-lang="en"]) body [lang="en"]:not(.both),
+:root:not([data-lang="de"]) body [lang="de"]:not(.both),
+:root:not([data-lang="fr"]) body [lang="fr"]:not(.both),
+:root:not([data-lang="it"]) body [lang="it"]:not(.both),
+:root:not([data-lang="es"]) body [lang="es"]:not(.both){display:none !important}
+/* Portada: castellano en el verso; en el recto, inglés o el idioma activo (alemán, francés, italiano) */
+.page[lang="de"], .page[lang="fr"], .page[lang="it"]{display:none}
+:root[data-lang="de"] .page[lang="de"], :root[data-lang="fr"] .page[lang="fr"], :root[data-lang="it"] .page[lang="it"]{display:flex}
+:root[data-lang="de"] .page[lang="en"], :root[data-lang="fr"] .page[lang="en"], :root[data-lang="it"] .page[lang="en"]{display:none}
+[hidden]{display:none !important}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; background:var(--bg)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg); color:var(--ink); font:400 1.06rem/1.6 var(--body); margin:0;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px))}
+img{max-width:100%}
+.wrap{max-width:1120px; margin:0 auto}
+a{color:var(--ink); text-decoration-thickness:1px; text-underline-offset:.18em}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+h1,h2,h3{text-wrap:balance; line-height:1.1; margin:0; font-weight:400}
+h1,h2{font-family:var(--display)}
+h3{font-family:var(--caps); font-weight:700}
+p{margin:0}
+.label{font:500 .72rem/1.2 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* Navegación */
+nav{display:flex; flex-wrap:wrap; gap:.7rem 1.4rem; align-items:center; justify-content:space-between; padding-block:1.1rem; border-bottom:1px solid var(--line)}
+.brand{color:var(--ink); text-decoration:none; display:flex; gap:.7rem; align-items:center}
+.brand img{width:30px; height:auto; flex:none}
+.brand small{display:block; font:500 .66rem/1 var(--caps); letter-spacing:.22em; text-transform:uppercase}
+.brand b{display:block; font:400 1.45rem/1 var(--display); margin-top:.15rem}
+.navr{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1.4rem}
+nav ul{list-style:none; display:flex; flex-wrap:wrap; gap:.4rem 1.2rem; margin:0; padding:0}
+nav ul a{color:var(--muted); text-decoration:none}
+nav ul a:hover{color:var(--ink)}
+.langs{display:inline-flex; border:1px solid var(--line2); border-radius:99px; padding:3px}
+.langs button{font:500 .78rem/1 var(--mono); letter-spacing:.08em; border:0; background:transparent; color:var(--muted); padding:.45rem .75rem; border-radius:99px; cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+
+/* Portada */
+.hero{padding-block:3rem 2.2rem; display:grid; gap:1.8rem}
+.logo{display:block; width:min(680px, 100%); margin:0 auto; height:auto}
+.spread{position:relative; display:grid; grid-template-columns:1fr 1fr; background:var(--page); border:1px solid var(--line2); border-radius:4px}
+.spread::after{content:""; position:absolute; top:0; bottom:0; left:50%; width:44px; transform:translateX(-50%); pointer-events:none;
+  background:linear-gradient(90deg, transparent, var(--fold) 48%, var(--line2) 50%, var(--fold) 52%, transparent)}
+.page{padding:2.2rem 2.4rem 2rem; display:flex; flex-direction:column; gap:1rem; min-width:0; transition:color .25s}
+.page .folio{display:flex; justify-content:space-between; gap:1rem}
+.page h2{font-size:clamp(1.8rem,3.5vw,2.8rem)}
+.page h2 em{font-style:normal; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:.16em}
+.page p{color:var(--muted); font-size:1.08rem; max-width:32em}
+.page .foot{margin-top:auto; padding-top:.6rem}
+.cta{display:flex; flex-wrap:wrap; gap:.7rem}
+.switch{font:italic 400 1rem var(--body); background:none; border:0; padding:0; color:var(--ink); text-decoration:underline; text-underline-offset:.18em; cursor:pointer; text-align:left}
+.page:not(.active){color:var(--faint)}
+.page:not(.active) h2 em{text-decoration:none}
+.page:not(.active) p{color:var(--faint)}
+.page:not(.active) .cta{display:none}
+.page.active .switch{display:none}
+.btn{display:inline-flex; align-items:center; gap:.4rem; font:500 1rem/1 var(--body); padding:.8rem 1.2rem; border-radius:3px; text-decoration:none; border:1px solid var(--ink); color:var(--ink); background:transparent; cursor:pointer}
+.btn.primary{background:var(--ink); color:var(--bg)}
+.btn[disabled]{opacity:.5; cursor:not-allowed}
+.ledger{display:flex; flex-wrap:wrap; gap:.6rem 2.2rem; align-items:baseline; justify-content:center}
+.ledger div{display:flex; gap:.6rem; align-items:baseline}
+.ledger b{font:500 1.25rem/1 var(--mono); font-variant-numeric:tabular-nums}
+
+section{padding-block:2.8rem; border-top:1px solid var(--line); scroll-margin-top:1rem}
+.head{display:grid; gap:.5rem; margin-bottom:1.5rem}
+.head h2{font-size:clamp(1.9rem,4.2vw,2.7rem)}
+.head p{color:var(--muted); max-width:44em}
+
+/* Géneros */
+.genres{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.7rem}
+.genre{display:grid; gap:.35rem; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:.9rem 1rem; color:var(--ink); font:inherit; cursor:pointer; min-width:0}
+.genre:hover, .genre[aria-pressed="true"]{border-color:var(--ink)}
+.genre[aria-pressed="true"]{background:#141414}
+.genre .gtop{display:flex; justify-content:space-between; align-items:baseline; gap:.6rem}
+.genre b{font:700 1rem/1.15 var(--caps)}
+.genre .n{font:500 .8rem/1 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums}
+.genre span.d{font-size:.9rem; color:var(--muted); line-height:1.4}
+
+/* Buscador y filtros */
+.search{display:grid; gap:.9rem; background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:1rem; margin-bottom:1.2rem}
+.search input[type=search]{width:100%; font:400 1.1rem var(--body); padding:.75rem .9rem; border:1px solid var(--line2); border-radius:3px; background:var(--field); color:var(--ink)}
+.fgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.7rem}
+.fgrid label{display:grid; gap:.3rem; min-width:0}
+select, .form input, .form textarea{font:400 1rem var(--body); padding:.55rem .6rem; border:1px solid var(--line2); border-radius:3px; background:var(--field); color:var(--ink); width:100%; min-width:0}
+::placeholder{color:rgba(255,255,255,.4)}
+.bar{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.6rem; margin-bottom:1rem}
+.linkbtn{background:none; border:0; color:var(--ink); font:inherit; cursor:pointer; text-decoration:underline; text-underline-offset:.18em; padding:0}
+
+/* Fichas */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1.1rem}
+.grid:empty{display:none}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:4px; display:flex; flex-direction:column; min-width:0; text-align:left; color:inherit; font:inherit; padding:0; cursor:pointer}
+.card:hover{border-color:var(--ink)}
+.card .top{padding:1.1rem 1.1rem .9rem; display:grid; gap:.5rem}
+.card h3{font-size:1.3rem}
+.by{font-size:.92rem; color:var(--muted); font-style:italic}
+.card p.sum{color:var(--muted); font-size:.98rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.note{font-size:.85rem; color:var(--muted); font-style:italic}
+.tags{display:flex; flex-wrap:wrap; gap:.35rem}
+.status, .tag{font:500 .68rem/1 var(--mono); padding:.32rem .45rem; border-radius:2px}
+.status{letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--ink)}
+.status.preparacion{border-style:dashed; color:var(--muted)}
+.tag{border:1px solid var(--line2); color:var(--muted)}
+.tag.lang{background:var(--ink); color:var(--bg); border-color:var(--ink); letter-spacing:.08em}
+.tag.age{border-color:var(--ink); color:var(--ink)}
+dl.stats{margin:auto 0 0; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; border-top:1px solid var(--line)}
+dl.stats div{padding:.65rem .3rem; text-align:center; border-right:1px solid var(--line); min-width:0}
+dl.stats div:last-child{border-right:0}
+dl.stats dt{font:500 .6rem/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+dl.stats dd{margin:.35rem 0 0; font:500 .85rem/1.15 var(--mono); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.empty{padding:2.4rem 1.5rem; text-align:center; color:var(--muted); border:1px dashed var(--line2); border-radius:4px; font-size:1.08rem}
+
+/* Diálogo de ficha */
+dialog{border:1px solid var(--line2); border-radius:6px; background:var(--surface); color:var(--ink); width:min(720px, calc(100vw - 32px)); max-height:calc(100vh - 48px); padding:0}
+dialog::backdrop{background:rgba(0,0,0,.8)}
+.dlg{padding:1.4rem; display:grid; gap:1rem}
+.dlg header{display:flex; justify-content:space-between; gap:1rem; align-items:start}
+.dlg h3{font-size:clamp(1.5rem,4vw,2rem)}
+.x{background:none; border:1px solid var(--line2); border-radius:3px; color:var(--ink); font:500 1rem var(--mono); width:2.2rem; height:2.2rem; cursor:pointer; flex:none}
+.facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.6rem; margin:0}
+.facts div{border:1px solid var(--line); border-radius:3px; padding:.6rem .7rem; background:var(--bg); min-width:0}
+.facts dd{margin:.3rem 0 0; font:500 .92rem var(--mono); overflow-wrap:anywhere}
+.warnbox{border:1px dashed var(--line2); border-radius:3px; padding:.7rem .9rem; font-size:.95rem}
+.licbox{border-left:3px solid var(--ink); padding:.7rem .9rem; background:var(--bg); font-size:.95rem; display:grid; gap:.5rem}
+.actions{display:flex; flex-wrap:wrap; gap:.7rem; align-items:center}
+
+/* Formulario */
+.form{display:grid; gap:1.4rem; max-width:820px}
+fieldset{border:1px solid var(--line); border-radius:4px; padding:1.1rem 1.1rem 1.2rem; margin:0; display:grid; gap:.9rem; background:var(--surface); min-width:0}
+legend{font:700 1.05rem var(--caps); padding:0 .4rem}
+.row{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem}
+.field{display:grid; gap:.3rem; min-width:0}
+.hint{font-size:.88rem; color:var(--muted)}
+.req::after{content:" *"}
+.form textarea{min-height:6.5rem; resize:vertical}
+.radio, .check{display:grid; grid-template-columns:auto 1fr; gap:.6rem; align-items:start; padding:.55rem .2rem}
+.radio input, .check input{margin-top:.3rem; width:1.05rem; height:1.05rem; accent-color:#fff}
+.radio small{display:block; color:var(--muted); font-size:.88rem}
+.chips{display:flex; flex-wrap:wrap; gap:.45rem}
+.chips label{display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line2); border-radius:99px; padding:.35rem .75rem; cursor:pointer; font-size:.95rem}
+.chips input{accent-color:#fff; margin:0; width:auto; flex:none}
+.chips label:has(input:checked){border-color:var(--ink); background:#161616}
+.notice{padding:.9rem 1rem; border-radius:4px; border:1px solid var(--ink); background:var(--surface)}
+.notice.err{border-style:dashed}
+.hp{display:none}
+
+/* Textos legales */
+.legal{display:grid; gap:.7rem}
+details{border:1px solid var(--line); border-radius:4px; background:var(--surface); min-width:0}
+summary{cursor:pointer; padding:.9rem 1.1rem; font:700 1.02rem var(--caps)}
+details .in{padding:0 1.1rem 1.1rem; display:grid; gap:.7rem; max-width:62em; overflow-wrap:anywhere; min-width:0}
+details ul{margin:0; padding-left:1.2rem; display:grid; gap:.35rem}
+blockquote{margin:0; padding:.8rem 1rem; border-left:3px solid var(--ink); font:400 .85rem/1.55 var(--mono); background:var(--bg); overflow-wrap:anywhere}
+.tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:4px}
+table{border-collapse:collapse; width:100%; min-width:640px; font-size:.95rem}
+th, td{text-align:left; vertical-align:top; padding:.7rem .8rem; border-bottom:1px solid var(--line)}
+th{font:500 .68rem/1.2 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--surface)}
+tr:last-child td{border-bottom:0}
+td b{font-family:var(--caps); font-size:.95rem}
+td small{display:block; color:var(--muted)}
+footer{padding-block:2rem 3rem; color:var(--muted); font-size:.9rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center}
+footer .marks{display:flex; gap:1rem; align-items:center}
+footer .marks img{height:40px; width:auto}
+.dp{background:#fff; border-radius:6px; padding:4px; height:auto; display:block}
+footer .marks img.dp{height:48px; width:48px}
+.dpline{display:flex; gap:.9rem; align-items:center}
+.dpline .dp{width:64px; flex:none}
+
+@media (max-width:760px){
+  .spread{grid-template-columns:1fr}
+  .spread::after{display:none}
+  .page{padding:1.5rem 1.2rem}
+  .page.active{order:-1}
+  .page:not(.active){border-top:1px solid var(--line2)}
+  .page:not(.active) p{display:none}
+  .page:not(.active) h2{font-size:1.35rem !important}
+  .genres{grid-template-columns:1fr 1fr}
+  .genre span.d{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Principal / Main">
+  <a class="brand" href="#inicio">
+    <img src="isotipo-tl.png" alt="" width="30" height="34">
+    <span><small>Episodios de</small><b>Terranula</b></span>
+  </a>
+  <div class="navr">
+    <ul>
+      <li><a href="#generos"><span lang="es">Géneros</span><span lang="en">Genres</span><span lang="de">Genres</span><span lang="fr">Genres</span><span lang="it">Generi</span></a></li>
+      <li><a href="#catalogo"><span lang="es">Catálogo</span><span lang="en">Catalogue</span><span lang="de">Katalog</span><span lang="fr">Catalogue</span><span lang="it">Catalogo</span></a></li>
+      <li><a href="#enviar"><span lang="es">Envía tu partida</span><span lang="en">Submit yours</span><span lang="de">Szenario einreichen</span><span lang="fr">Proposer une partie</span><span lang="it">Invia la tua</span></a></li>
+      <li><a href="#sistemas"><span lang="es">Sistemas y licencias</span><span lang="en">Systems &amp; licences</span><span lang="de">Systeme &amp; Lizenzen</span><span lang="fr">Systèmes &amp; licences</span><span lang="it">Sistemi e licenze</span></a></li>
+      <li data-yt hidden><a class="ytlink" target="_blank" rel="noopener">YouTube</a></li>
+      <li><a href="#legal"><span lang="es">Aviso legal</span><span lang="en">Legal</span><span lang="de">Impressum</span><span lang="fr">Mentions légales</span><span lang="it">Note legali</span></a></li>
+    </ul>
+    <div class="langs" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="es" aria-pressed="true" title="Español">ES</button>
+      <button type="button" data-setlang="en" aria-pressed="false" title="English">EN</button>
+      <button type="button" data-setlang="de" aria-pressed="false" title="Deutsch">DE</button>
+      <button type="button" data-setlang="fr" aria-pressed="false" title="Français">FR</button>
+      <button type="button" data-setlang="it" aria-pressed="false" title="Italiano">IT</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <h1 class="sr">Episodios de Terranula</h1>
+  <img class="logo" src="logo-terranula.png" alt="Episodios de Terranula" width="1042" height="252">
+  <div class="spread">
+    <article class="page both" lang="es">
+      <div class="folio"><span class="label">Castellano</span><span class="label">Hecho por la comunidad · Gratis</span></div>
+      <h2>Partidas escritas por la comunidad, <em>para cualquier mesa y cualquier sistema</em>.</h2>
+      <p>Terror cósmico para La llamada de Cthulhu, crónicas de Vampiro, mazmorras de D&amp;D, comedias de una tarde o sistemas propios. Busca por género, sistema o duración, descarga la partida gratis y llévala a tu mesa. Si has escrito la tuya, envíala: tras una revisión quedará disponible para cualquiera.</p>
+      <div class="foot">
+        <div class="cta"><a class="btn primary" href="#catalogo">Buscar partidas</a><a class="btn" href="#enviar">Enviar la mía</a></div>
+        <button class="switch" type="button" data-setlang="es">Leer la web en castellano</button>
+      </div>
+    </article>
+    <article class="page both" lang="en">
+      <div class="folio"><span class="label">English</span><span class="label">Community-made · Free</span></div>
+      <h2>Scenarios written by the community, <em>for every table and every system</em>.</h2>
+      <p>Cosmic horror for Call of Cthulhu, Vampire chronicles, D&amp;D dungeons, one-evening comedies or home-grown systems. Search by genre, system or length, download the scenario for free and bring it to your table. If you have written one, send it in: once reviewed, anyone can use it.</p>
+      <div class="foot">
+        <div class="cta"><a class="btn primary" href="#catalogo">Browse scenarios</a><a class="btn" href="#enviar">Submit mine</a></div>
+        <button class="switch" type="button" data-setlang="en">Read the site in English</button>
+      </div>
+    </article>
+    <article class="page both" lang="de">
+      <div class="folio"><span class="label">Deutsch</span><span class="label">Fan-Werk · Kostenlos</span></div>
+      <h2>Szenarien aus der Community, <em>für jeden Spieltisch und jedes System</em>.</h2>
+      <p>Kosmischer Horror für Call of Cthulhu, Vampire-Chroniken, D&amp;D-Dungeons, Komödien für einen Abend oder eigene Systeme. Suche nach Genre, System oder Dauer, lade das Szenario kostenlos herunter und bring es an deinen Tisch. Hast du selbst eines geschrieben, reiche es ein: Nach der Prüfung kann es jeder nutzen.</p>
+      <div class="foot">
+        <div class="cta"><a class="btn primary" href="#catalogo">Szenarien durchsuchen</a><a class="btn" href="#enviar">Meines einreichen</a></div>
+        <button class="switch" type="button" data-setlang="de">Website auf Deutsch lesen</button>
+      </div>
+    </article>
+    <article class="page both" lang="fr">
+      <div class="folio"><span class="label">Français</span><span class="label">Fait par des fans · Gratuit</span></div>
+      <h2>Des parties écrites par la communauté, <em>pour toutes les tables et tous les systèmes</em>.</h2>
+      <p>De l’horreur cosmique pour L’Appel de Cthulhu, des chroniques de Vampire, des donjons de D&amp;D, des comédies d’un soir ou des systèmes maison. Cherchez par genre, système ou durée, téléchargez la partie gratuitement et apportez-la à votre table. Si vous en avez écrit une, proposez-la : après relecture, chacun pourra l’utiliser.</p>
+      <div class="foot">
+        <div class="cta"><a class="btn primary" href="#catalogo">Parcourir les parties</a><a class="btn" href="#enviar">Proposer la mienne</a></div>
+        <button class="switch" type="button" data-setlang="fr">Lire le site en français</button>
+      </div>
+    </article>
+    <article class="page both" lang="it">
+      <div class="folio"><span class="label">Italiano</span><span class="label">Fatto dai fan · Gratis</span></div>
+      <h2>Avventure scritte dalla comunità, <em>per ogni tavolo e ogni sistema</em>.</h2>
+      <p>Orrore cosmico per Il Richiamo di Cthulhu, cronache di Vampiri, dungeon di D&amp;D, commedie di una sera o sistemi fatti in casa. Cerca per genere, sistema o durata, scarica l’avventura gratis e portala al tuo tavolo. Se ne hai scritta una, inviala: dopo la revisione, chiunque potrà usarla.</p>
+      <div class="foot">
+        <div class="cta"><a class="btn primary" href="#catalogo">Sfoglia le avventure</a><a class="btn" href="#enviar">Invia la mia</a></div>
+        <button class="switch" type="button" data-setlang="it">Leggi il sito in italiano</button>
+      </div>
+    </article>
+  </div>
+  <div class="ledger" aria-live="polite">
+    <div><b id="nPub">0</b><span class="label"><span lang="es">Publicadas</span><span lang="en">Published</span><span lang="de">Veröffentlicht</span><span lang="fr">Publiées</span><span lang="it">Pubblicate</span></span></div>
+    <div><b id="nPrep">0</b><span class="label"><span lang="es">En preparación</span><span lang="en">In progress</span><span lang="de">In Arbeit</span><span lang="fr">En préparation</span><span lang="it">In preparazione</span></span></div>
+    <div><b id="nSys">0</b><span class="label"><span lang="es">Sistemas</span><span lang="en">Systems</span><span lang="de">Systeme</span><span lang="fr">Systèmes</span><span lang="it">Sistemi</span></span></div>
+    <div><b id="nGen">18</b><span class="label"><span lang="es">Géneros</span><span lang="en">Genres</span><span lang="de">Genres</span><span lang="fr">Genres</span><span lang="it">Generi</span></span></div>
+  </div>
+</header>
+
+<section id="generos">
+  <div class="head">
+    <h2><span lang="es">Géneros</span><span lang="en">Genres</span><span lang="de">Genres</span><span lang="fr">Genres</span><span lang="it">Generi</span></h2>
+    <p><span lang="es">Cada partida puede pertenecer a un máximo de tres géneros. Pulsa uno para ver solo las suyas en el catálogo.</span><span lang="en">Each scenario can belong to up to three genres. Pick one to show only those in the catalogue.</span><span lang="de">Jedes Szenario kann bis zu drei Genres angehören. Wähle eines, um im Katalog nur dessen Szenarien zu sehen.</span><span lang="fr">Chaque partie peut appartenir à trois genres au plus. Choisissez-en un pour n’afficher que ses parties dans le catalogue.</span><span lang="it">Ogni avventura può appartenere a un massimo di tre generi. Scegline uno per vedere solo le sue nel catalogo.</span></p>
+  </div>
+  <div class="genres" id="genres"></div>
+</section>
+
+<section id="catalogo">
+  <div class="head">
+    <h2><span lang="es">Catálogo</span><span lang="en">Catalogue</span><span lang="de">Katalog</span><span lang="fr">Catalogue</span><span lang="it">Catalogo</span></h2>
+    <p><span lang="es">Busca por título, autor, ambientación o palabra clave, y afina con los filtros. Todas las partidas son gratuitas; cada ficha indica su sistema, su público recomendado y las advertencias de contenido que ha declarado el autor.</span><span lang="en">Search by title, author, setting or keyword, then narrow it down with the filters. Every scenario is free; each entry shows its system, recommended audience and the content warnings declared by its author.</span><span lang="de">Suche nach Titel, Autor, Schauplatz oder Stichwort und grenze die Ergebnisse mit den Filtern ein. Alle Szenarien sind kostenlos; jeder Eintrag zeigt System, empfohlenes Publikum und die vom Autor angegebenen Inhaltswarnungen.</span><span lang="fr">Cherchez par titre, auteur, cadre ou mot-clé, puis affinez avec les filtres. Toutes les parties sont gratuites ; chaque fiche indique son système, son public recommandé et les avertissements de contenu déclarés par l’auteur.</span><span lang="it">Cerca per titolo, autore, ambientazione o parola chiave e affina con i filtri. Tutte le avventure sono gratuite; ogni scheda indica il sistema, il pubblico consigliato e gli avvisi sui contenuti dichiarati dall’autore.</span></p>
+  </div>
+
+  <div class="search" role="search">
+    <label class="sr" for="q"><span lang="es">Buscar partidas</span><span lang="en">Search scenarios</span><span lang="de">Szenarien suchen</span><span lang="fr">Rechercher des parties</span><span lang="it">Cerca avventure</span></label>
+    <input type="search" id="q" autocomplete="off"
+      data-ph-es="Busca por título, autor, ambientación o palabra clave: Arkham, one-shot, Madrid, dragones…"
+      data-ph-en="Search by title, author, setting or keyword: Arkham, one-shot, Madrid, dragons…" data-ph-de="Suche nach Titel, Autor, Schauplatz oder Stichwort: Arkham, One-Shot, Madrid, Drachen…" data-ph-fr="Cherchez par titre, auteur, cadre ou mot-clé : Arkham, one-shot, Madrid, dragons…" data-ph-it="Cerca per titolo, autore, ambientazione o parola chiave: Arkham, one-shot, Madrid, draghi…">
+    <div class="fgrid">
+      <label><span class="label"><span lang="es">Género</span><span lang="en">Genre</span><span lang="de">Genre</span><span lang="fr">Genre</span><span lang="it">Genere</span></span><select id="fGen"></select></label>
+      <label><span class="label"><span lang="es">Sistema</span><span lang="en">System</span><span lang="de">System</span><span lang="fr">Système</span><span lang="it">Sistema</span></span><select id="fSis"></select></label>
+      <label><span class="label"><span lang="es">Idioma</span><span lang="en">Language</span><span lang="de">Sprache</span><span lang="fr">Langue</span><span lang="it">Lingua</span></span>
+        <select id="fIdioma"><option value="" data-en="Any" data-de="Beliebig" data-fr="Indifférent" data-it="Qualsiasi">Cualquiera</option><option value="es" data-en="Spanish" data-de="Spanisch" data-fr="Espagnol" data-it="Spagnolo">Español</option><option value="en" data-en="English" data-de="Englisch" data-fr="Anglais" data-it="Inglese">Inglés</option></select></label>
+      <label><span class="label"><span lang="es">Duración</span><span lang="en">Length</span><span lang="de">Dauer</span><span lang="fr">Durée</span><span lang="it">Durata</span></span>
+        <select id="fDur"><option value="" data-en="Any" data-de="Beliebig" data-fr="Indifférent" data-it="Qualsiasi">Cualquiera</option><option value="1" data-en="One-shot" data-de="Eine Sitzung" data-fr="Une séance" data-it="Una sessione">Una sesión</option><option value="2-4" data-en="2–4 sessions" data-de="2–4 Sitzungen" data-fr="2–4 séances" data-it="2–4 sessioni">2–4 sesiones</option><option value="5-999" data-en="Campaign (5+)" data-de="Kampagne (5+)" data-fr="Campagne (5+)" data-it="Campagna (5+)">Campaña (5 o más)</option></select></label>
+      <label><span class="label"><span lang="es">Jugadores</span><span lang="en">Players</span><span lang="de">Spieler</span><span lang="fr">Joueurs</span><span lang="it">Giocatori</span></span>
+        <select id="fPj"><option value="" data-en="Any" data-de="Beliebig" data-fr="Indifférent" data-it="Qualsiasi">Cualquiera</option><option value="1" data-en="1 (solo)" data-de="1 (solo)" data-fr="1 (en solo)" data-it="1 (in solitario)">1 (en solitario)</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" data-en="6 or more" data-de="6 oder mehr" data-fr="6 ou plus" data-it="6 o più">6 o más</option></select></label>
+      <label><span class="label"><span lang="es">Público</span><span lang="en">Audience</span><span lang="de">Publikum</span><span lang="fr">Public</span><span lang="it">Pubblico</span></span>
+        <select id="fPub"><option value="" data-en="Any" data-de="Beliebig" data-fr="Indifférent" data-it="Qualsiasi">Cualquiera</option><option value="tp" data-en="All ages" data-de="Alle Altersstufen" data-fr="Tout public" data-it="Per tutti">Todos los públicos</option><option value="12" data-en="Up to 12+" data-de="Bis ab 12" data-fr="Jusqu’à 12+" data-it="Fino a +12">Hasta +12</option><option value="16" data-en="Up to 16+" data-de="Bis ab 16" data-fr="Jusqu’à 16+" data-it="Fino a +16">Hasta +16</option></select></label>
+      <label><span class="label"><span lang="es">Licencia</span><span lang="en">Licence</span><span lang="de">Lizenz</span><span lang="fr">Licence</span><span lang="it">Licenza</span></span>
+        <select id="fLic"><option value="" data-en="Any" data-de="Beliebig" data-fr="Indifférent" data-it="Qualsiasi">Cualquiera</option><option>CC BY-NC-SA 4.0</option><option>CC BY-NC 4.0</option><option>CC0 1.0</option></select></label>
+      <label><span class="label"><span lang="es">Ordenar</span><span lang="en">Sort</span><span lang="de">Sortieren</span><span lang="fr">Trier</span><span lang="it">Ordina</span></span>
+        <select id="fOrden"><option value="reciente" data-en="Newest first" data-de="Neueste zuerst" data-fr="Plus récentes" data-it="Più recenti">Más recientes</option><option value="titulo" data-en="Title (A–Z)" data-de="Titel (A–Z)" data-fr="Titre (A–Z)" data-it="Titolo (A–Z)">Título (A–Z)</option><option value="corta" data-en="Shortest first" data-de="Kürzeste zuerst" data-fr="Plus courtes d’abord" data-it="Più brevi prima">Más cortas primero</option></select></label>
+    </div>
+  </div>
+
+  <div class="bar"><span class="label" id="count" aria-live="polite"></span><button class="linkbtn" id="reset" type="button"><span lang="es">Quitar filtros</span><span lang="en">Clear filters</span><span lang="de">Filter zurücksetzen</span><span lang="fr">Effacer les filtres</span><span lang="it">Rimuovi filtri</span></button></div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden></p>
+</section>
+
+<dialog id="dlg" aria-labelledby="dTitle">
+  <div class="dlg">
+    <header>
+      <div style="display:grid; gap:.5rem">
+        <div class="tags" id="dTags"></div>
+        <h3 id="dTitle"></h3>
+        <span class="by" id="dBy"></span>
+      </div>
+      <button class="x" id="dClose" type="button" aria-label="Cerrar / Close">×</button>
+    </header>
+    <p id="dSum"></p>
+    <dl class="facts" id="dFacts"></dl>
+    <div class="warnbox" id="dWarn" hidden></div>
+    <div class="licbox" id="dLic"></div>
+    <div class="actions" id="dAct"></div>
+  </div>
+</dialog>
+
+<section id="enviar">
+  <div class="head">
+    <h2><span lang="es">Envía tu partida</span><span lang="en">Submit your scenario</span><span lang="de">Reiche dein Szenario ein</span><span lang="fr">Proposez votre partie</span><span lang="it">Invia la tua avventura</span></h2>
+    <p><span lang="es">Aceptamos partidas en español o en inglés, para cualquier sistema. Todos los envíos se revisan antes de publicarse, normalmente en unos días: comprobamos que la partida sea tuya, que no copie texto, tablas ni ilustraciones de libros oficiales, que cumpla la política de contenido de fans del sistema que usa y que respete las normas de la comunidad. Los campos con asterisco son obligatorios.</span><span lang="en">We accept scenarios in Spanish or English, for any system. Every submission is reviewed before it goes live, usually within a few days: we check that it is yours, that it does not copy text, tables or artwork from official books, that it follows the fan content policy of the system it uses, and that it respects the community rules. Fields marked with an asterisk are required.</span><span lang="de">Wir nehmen Szenarien auf Spanisch oder Englisch für jedes System an. Jede Einreichung wird vor der Veröffentlichung geprüft, meist innerhalb weniger Tage: Wir prüfen, ob sie von dir stammt, ob sie keine Texte, Tabellen oder Illustrationen aus offiziellen Büchern kopiert, ob sie die Fan-Content-Richtlinie des verwendeten Systems einhält und ob sie die Gemeinschaftsregeln respektiert. Mit Sternchen markierte Felder sind Pflichtfelder.</span><span lang="fr">Nous acceptons les parties en espagnol ou en anglais, pour tout système. Chaque envoi est relu avant publication, en général en quelques jours : nous vérifions qu’il est bien de vous, qu’il ne copie ni texte, ni tableau, ni illustration de livres officiels, qu’il respecte la politique de contenu de fans du système utilisé et les règles de la communauté. Les champs marqués d’un astérisque sont obligatoires.</span><span lang="it">Accettiamo avventure in spagnolo o in inglese, per qualsiasi sistema. Ogni invio viene revisionato prima della pubblicazione, di solito in pochi giorni: verifichiamo che sia tuo, che non copi testi, tabelle o illustrazioni da libri ufficiali, che rispetti la politica sui contenuti dei fan del sistema usato e le regole della comunità. I campi con l’asterisco sono obbligatori.</span></p>
+  </div>
+
+  <form class="form" id="envio" name="envio-partida" method="POST" action="/gracias.html" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="form-name" value="envio-partida">
+    <input type="hidden" name="idioma-contacto" id="idiomaContacto" value="es">
+    <p class="hp"><label>No rellenes este campo / Leave empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+    <fieldset>
+      <legend><span lang="es">La partida</span><span lang="en">The scenario</span><span lang="de">Das Szenario</span><span lang="fr">La partie</span><span lang="it">L’avventura</span></legend>
+      <div class="field"><label class="req" for="titulo"><span lang="es">Título</span><span lang="en">Title</span><span lang="de">Titel</span><span lang="fr">Titre</span><span lang="it">Titolo</span></label><input id="titulo" name="titulo" required maxlength="120"></div>
+      <div class="row">
+        <div class="field"><label class="req" for="idioma"><span lang="es">Idioma de la partida</span><span lang="en">Language of the scenario</span><span lang="de">Sprache des Szenarios</span><span lang="fr">Langue de la partie</span><span lang="it">Lingua dell’avventura</span></label>
+          <select id="idioma" name="idioma" required><option value="" data-en="Choose one" data-de="Bitte wählen" data-fr="Choisissez" data-it="Scegli">Elige uno</option><option value="es" data-en="Spanish" data-de="Spanisch" data-fr="Espagnol" data-it="Spagnolo">Español</option><option value="en" data-en="English" data-de="Englisch" data-fr="Anglais" data-it="Inglese">Inglés</option><option value="bi" data-en="Both (bilingual)" data-de="Beide (zweisprachig)" data-fr="Les deux (bilingue)" data-it="Entrambe (bilingue)">Ambos (bilingüe)</option></select></div>
+        <div class="field"><label class="req" for="sistema"><span lang="es">Sistema de juego</span><span lang="en">Game system</span><span lang="de">Spielsystem</span><span lang="fr">Système de jeu</span><span lang="it">Sistema di gioco</span></label><select id="sistema" name="sistema" required></select></div>
+        <div class="field" id="otroWrap" hidden><label class="req" for="sistemaOtro"><span lang="es">¿Qué sistema?</span><span lang="en">Which system?</span><span lang="de">Welches System?</span><span lang="fr">Quel système ?</span><span lang="it">Quale sistema?</span></label><input id="sistemaOtro" name="sistema-otro" maxlength="80"></div>
+      </div>
+      <div class="field">
+        <span class="label req" id="genLbl"><span lang="es">Géneros (de uno a tres)</span><span lang="en">Genres (one to three)</span><span lang="de">Genres (eins bis drei)</span><span lang="fr">Genres (un à trois)</span><span lang="it">Generi (da uno a tre)</span></span>
+        <div class="chips" id="genChips" role="group" aria-labelledby="genLbl"></div>
+      </div>
+      <div class="field"><label class="req" for="resumen"><span lang="es">Resumen para la ficha</span><span lang="en">Summary for the catalogue</span><span lang="de">Zusammenfassung für den Katalog</span><span lang="fr">Résumé pour la fiche</span><span lang="it">Riassunto per la scheda</span></label><textarea id="resumen" name="resumen" required maxlength="600"></textarea><span class="hint"><span lang="es">En el idioma de la partida. Hasta 600 caracteres, sin destripar el final.</span><span lang="en">In the language of the scenario. Up to 600 characters, no spoilers.</span><span lang="de">In der Sprache des Szenarios. Bis zu 600 Zeichen, ohne das Ende zu verraten.</span><span lang="fr">Dans la langue de la partie. Jusqu’à 600 caractères, sans dévoiler la fin.</span><span lang="it">Nella lingua dell’avventura. Fino a 600 caratteri, senza rivelare il finale.</span></span></div>
+      <div class="field"><label for="resumenTrad"><span lang="es">Resumen en el otro idioma (opcional)</span><span lang="en">Summary in the other language (optional)</span><span lang="de">Zusammenfassung in der anderen Sprache (optional)</span><span lang="fr">Résumé dans l’autre langue (facultatif)</span><span lang="it">Riassunto nell’altra lingua (facoltativo)</span></label><textarea id="resumenTrad" name="resumen-traduccion" maxlength="600"></textarea><span class="hint"><span lang="es">Si lo incluyes, la ficha se mostrará en los dos idiomas. Si no, la traduciremos nosotros.</span><span lang="en">If you include it, the entry will appear in both languages. If not, we will translate it.</span><span lang="de">Wenn du sie beifügst, erscheint der Eintrag in beiden Sprachen. Andernfalls übersetzen wir sie.</span><span lang="fr">Si vous l’ajoutez, la fiche apparaîtra dans les deux langues. Sinon, nous la traduirons.</span><span lang="it">Se lo aggiungi, la scheda apparirà in entrambe le lingue. Altrimenti lo tradurremo noi.</span></span></div>
+      <div class="row">
+        <div class="field"><label class="req" for="jugadores"><span lang="es">Jugadores</span><span lang="en">Players</span><span lang="de">Spieler</span><span lang="fr">Joueurs</span><span lang="it">Giocatori</span></label><input id="jugadores" name="jugadores" placeholder="3–5" required maxlength="10"></div>
+        <div class="field"><label class="req" for="sesiones"><span lang="es">Sesiones aprox.</span><span lang="en">Approx. sessions</span><span lang="de">Sitzungen (ca.)</span><span lang="fr">Séances (env.)</span><span lang="it">Sessioni (circa)</span></label><input id="sesiones" name="sesiones" type="number" min="1" max="999" required></div>
+        <div class="field"><label for="nivel"><span lang="es">Nivel o experiencia</span><span lang="en">Level or experience</span><span lang="de">Stufe oder Erfahrung</span><span lang="fr">Niveau ou expérience</span><span lang="it">Livello o esperienza</span></label><input id="nivel" name="nivel" maxlength="60" data-ph-es="Niveles 1–3, novatos…" data-ph-en="Levels 1–3, newcomers…" data-ph-de="Stufen 1–3, Einsteiger…" data-ph-fr="Niveaux 1–3, débutants…" data-ph-it="Livelli 1–3, principianti…"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="ambientacion"><span lang="es">Ambientación</span><span lang="en">Setting</span><span lang="de">Schauplatz</span><span lang="fr">Cadre</span><span lang="it">Ambientazione</span></label><input id="ambientacion" name="ambientacion" maxlength="80" data-ph-es="Arkham, 1925 · mundo propio…" data-ph-en="Arkham, 1925 · original world…" data-ph-de="Arkham, 1925 · eigene Welt…" data-ph-fr="Arkham, 1925 · univers original…" data-ph-it="Arkham, 1925 · mondo originale…"></div>
+        <div class="field"><label for="etiquetas"><span lang="es">Palabras clave</span><span lang="en">Keywords</span><span lang="de">Stichwörter</span><span lang="fr">Mots-clés</span><span lang="it">Parole chiave</span></label><input id="etiquetas" name="etiquetas" maxlength="160" data-ph-es="one-shot, mansión, culto" data-ph-en="one-shot, mansion, cult" data-ph-de="One-Shot, Herrenhaus, Kult" data-ph-fr="one-shot, manoir, culte" data-ph-it="one-shot, villa, culto"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span lang="es">Público y contenido</span><span lang="en">Audience and content</span><span lang="de">Publikum und Inhalt</span><span lang="fr">Public et contenu</span><span lang="it">Pubblico e contenuti</span></legend>
+      <div class="row">
+        <div class="field"><label class="req" for="publico"><span lang="es">Público recomendado</span><span lang="en">Recommended audience</span><span lang="de">Empfohlenes Publikum</span><span lang="fr">Public recommandé</span><span lang="it">Pubblico consigliato</span></label>
+          <select id="publico" name="publico" required><option value="" data-en="Choose one" data-de="Bitte wählen" data-fr="Choisissez" data-it="Scegli">Elige uno</option><option value="tp" data-en="All ages" data-de="Alle Altersstufen" data-fr="Tout public" data-it="Per tutti">Todos los públicos</option><option value="12" data-en="12+" data-de="ab 12" data-fr="12+" data-it="+12">+12</option><option value="16" data-en="16+" data-de="ab 16" data-fr="16+" data-it="+16">+16</option><option value="18" data-en="18+ (mature themes)" data-de="ab 18 (Themen für Erwachsene)" data-fr="18+ (thèmes adultes)" data-it="+18 (temi per adulti)">+18 (temas adultos)</option></select></div>
+      </div>
+      <div class="field"><label for="advertencias"><span lang="es">Advertencias de contenido</span><span lang="en">Content warnings</span><span lang="de">Inhaltswarnungen</span><span lang="fr">Avertissements de contenu</span><span lang="it">Avvisi sui contenuti</span></label><input id="advertencias" name="advertencias" maxlength="240" data-ph-es="violencia, insectos, encierro, pérdida de un familiar…" data-ph-en="violence, insects, confinement, bereavement…" data-ph-de="Gewalt, Insekten, Eingesperrtsein, Trauer…" data-ph-fr="violence, insectes, enfermement, deuil…" data-ph-it="violenza, insetti, reclusione, lutto…"><span class="hint"><span lang="es">Obligatorio si la partida es de terror o para +16 y +18. Ayuda a cada grupo a decidir y a usar sus herramientas de seguridad (líneas y velos, carta X).</span><span lang="en">Required for horror scenarios and for 16+ and 18+. It helps each group decide and use its safety tools (lines and veils, X-card).</span><span lang="de">Pflicht bei Horror-Szenarien sowie ab 16 und ab 18. Sie helfen jeder Gruppe bei der Entscheidung und beim Einsatz ihrer Sicherheitswerkzeuge (Lines &amp; Veils, X-Karte).</span><span lang="fr">Obligatoires pour les parties d’horreur et pour les publics 16+ et 18+. Ils aident chaque groupe à décider et à utiliser ses outils de sécurité (lignes et voiles, carte X).</span><span lang="it">Obbligatori per le avventure horror e per +16 e +18. Aiutano ogni gruppo a decidere e a usare i propri strumenti di sicurezza (linee e veli, carta X).</span></span></div>
+      <div class="field"><label class="req" for="archivo"><span lang="es">Archivo de la partida (PDF)</span><span lang="en">Scenario file (PDF)</span><span lang="de">Szenariodatei (PDF)</span><span lang="fr">Fichier de la partie (PDF)</span><span lang="it">File dell’avventura (PDF)</span></label><input id="archivo" name="archivo" type="file" accept="application/pdf,.pdf" required><span class="hint"><span lang="es">Un único PDF de menos de 8 MB. Si pesa más, sube un PDF corto con el enlace a la versión completa en Google Drive, itch.io u otro servicio.</span><span lang="en">A single PDF under 8 MB. If yours is larger, upload a short PDF with a link to the full version on Google Drive, itch.io or similar.</span><span lang="de">Eine einzelne PDF-Datei unter 8 MB. Ist deine größer, lade eine kurze PDF mit einem Link zur vollständigen Fassung auf Google Drive, itch.io oder einem ähnlichen Dienst hoch.</span><span lang="fr">Un seul PDF de moins de 8 Mo. S’il est plus lourd, envoyez un PDF court avec un lien vers la version complète sur Google Drive, itch.io ou un service similaire.</span><span lang="it">Un unico PDF di meno di 8 MB. Se è più grande, carica un PDF breve con il link alla versione completa su Google Drive, itch.io o un servizio simile.</span></span></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span lang="es">Sobre ti</span><span lang="en">About you</span><span lang="de">Über dich</span><span lang="fr">À propos de vous</span><span lang="it">Su di te</span></legend>
+      <div class="row">
+        <div class="field"><label class="req" for="autor"><span lang="es">Nombre o seudónimo para los créditos</span><span lang="en">Name or pen name for the credits</span><span lang="de">Name oder Pseudonym für die Credits</span><span lang="fr">Nom ou pseudonyme pour les crédits</span><span lang="it">Nome o pseudonimo per i crediti</span></label><input id="autor" name="autor" required maxlength="80"></div>
+        <div class="field"><label class="req" for="email"><span lang="es">Correo de contacto</span><span lang="en">Contact email</span><span lang="de">Kontakt-E-Mail</span><span lang="fr">E-mail de contact</span><span lang="it">E-mail di contatto</span></label><input id="email" name="email" type="email" required maxlength="120"><span class="hint"><span lang="es">Solo para avisarte de la revisión. Nunca se publica.</span><span lang="en">Only used to tell you about the review. Never published.</span><span lang="de">Nur, um dich über die Prüfung zu informieren. Wird nie veröffentlicht.</span><span lang="fr">Utilisé uniquement pour vous informer de la relecture. Jamais publié.</span><span lang="it">Serve solo per informarti sulla revisione. Non viene mai pubblicata.</span></span></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend class="req"><span lang="es">Licencia de tu partida</span><span lang="en">Licence for your scenario</span><span lang="de">Lizenz für dein Szenario</span><span lang="fr">Licence de votre partie</span><span lang="it">Licenza della tua avventura</span></legend>
+      <p class="hint"><span lang="es">Sigues siendo el autor. La licencia indica qué pueden hacer los demás con tu texto; no cubre el material ajeno (sistema, ambientación oficial) que use la partida.</span><span lang="en">You remain the author. The licence tells others what they may do with your text; it does not cover third-party material (system, official setting) the scenario uses.</span><span lang="de">Du bleibst der Autor. Die Lizenz legt fest, was andere mit deinem Text tun dürfen; sie gilt nicht für fremdes Material (System, offizielle Welt), das das Szenario verwendet.</span><span lang="fr">Vous restez l’auteur. La licence indique aux autres ce qu’ils peuvent faire de votre texte ; elle ne couvre pas le contenu de tiers (système, univers officiel) utilisé par la partie.</span><span lang="it">Resti l’autore. La licenza indica agli altri cosa possono fare con il tuo testo; non copre il materiale di terzi (sistema, ambientazione ufficiale) usato dall’avventura.</span> <a href="#licencias"><span lang="es">Más información</span><span lang="en">Learn more</span><span lang="de">Mehr erfahren</span><span lang="fr">En savoir plus</span><span lang="it">Per saperne di più</span></a></p>
+      <label class="radio"><input type="radio" name="licencia" value="CC BY-NC-SA 4.0" required checked><span><b>CC BY-NC-SA 4.0</b> · <span lang="es">Recomendada</span><span lang="en">Recommended</span><span lang="de">Empfohlen</span><span lang="fr">Recommandée</span><span lang="it">Consigliata</span><small><span lang="es">Cualquiera puede descargar, compartir y adaptar tu partida, sin fines comerciales, citándote y publicando sus versiones con la misma licencia.</span><span lang="en">Anyone may download, share and adapt your scenario for non-commercial purposes, crediting you and releasing their versions under the same licence.</span><span lang="de">Jeder darf dein Szenario herunterladen, teilen und bearbeiten, nicht kommerziell, mit Namensnennung und unter derselben Lizenz für eigene Fassungen.</span><span lang="fr">Chacun peut télécharger, partager et adapter votre partie à des fins non commerciales, en vous citant et en publiant ses versions sous la même licence.</span><span lang="it">Chiunque può scaricare, condividere e adattare la tua avventura senza fini commerciali, citandoti e pubblicando le proprie versioni con la stessa licenza.</span></small></span></label>
+      <label class="radio"><input type="radio" name="licencia" value="CC BY-NC 4.0"><span><b>CC BY-NC 4.0</b><small><span lang="es">Como la anterior, pero las adaptaciones pueden usar otra licencia no comercial.</span><span lang="en">As above, but adaptations may use a different non-commercial licence.</span><span lang="de">Wie oben, aber Bearbeitungen dürfen eine andere nicht kommerzielle Lizenz verwenden.</span><span lang="fr">Comme la précédente, mais les adaptations peuvent utiliser une autre licence non commerciale.</span><span lang="it">Come la precedente, ma gli adattamenti possono usare un’altra licenza non commerciale.</span></small></span></label>
+      <label class="radio"><input type="radio" name="licencia" value="CC0 1.0"><span><b>CC0 1.0</b> · <span lang="es">Dominio público</span><span lang="en">Public domain</span><span lang="de">Gemeinfrei</span><span lang="fr">Domaine public</span><span lang="it">Pubblico dominio</span><small><span lang="es">Renuncias a tus derechos sobre tu texto en la medida que permita la ley. Recomendada solo para partidas con sistema propio o libre y ambientación original.</span><span lang="en">You waive your rights over your text to the extent the law allows. Recommended only for scenarios with an original or open system and an original setting.</span><span lang="de">Du verzichtest im gesetzlich zulässigen Umfang auf deine Rechte an deinem Text. Nur empfohlen für Szenarien mit eigenem oder freiem System und eigener Welt.</span><span lang="fr">Vous renoncez à vos droits sur votre texte dans la mesure permise par la loi. Recommandée uniquement pour les parties au système original ou libre et à l’univers original.</span><span lang="it">Rinunci ai tuoi diritti sul testo nella misura consentita dalla legge. Consigliata solo per avventure con sistema proprio o libero e ambientazione originale.</span></small></span></label>
+    </fieldset>
+
+    <fieldset>
+      <legend><span lang="es">Declaraciones</span><span lang="en">Declarations</span><span lang="de">Erklärungen</span><span lang="fr">Déclarations</span><span lang="it">Dichiarazioni</span></legend>
+      <label class="check"><input type="checkbox" name="decl-autoria" value="si" required><span class="req"><span lang="es">Soy el autor o autora de esta partida, o cuento con permiso de todas las personas que han participado en ella.</span><span lang="en">I am the author of this scenario, or I have permission from everyone who contributed to it.</span><span lang="de">Ich bin der Autor bzw. die Autorin dieses Szenarios oder habe die Erlaubnis aller, die daran mitgewirkt haben.</span><span lang="fr">Je suis l’auteur ou l’autrice de cette partie, ou j’ai l’accord de toutes les personnes qui y ont participé.</span><span lang="it">Sono l’autore o l’autrice di questa avventura, oppure ho il permesso di tutte le persone che vi hanno partecipato.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-oficial" value="si" required><span class="req"><span lang="es">La partida no copia texto, tablas, perfiles de criaturas, mapas ni ilustraciones de libros o juegos publicados, salvo material con licencia abierta (por ejemplo, el SRD de D&amp;D o el texto CC BY 4.0 de Ratas en las paredes), que atribuyo como exige su licencia. Para lo demás, remite al manual y a la página correspondientes.</span><span lang="en">The scenario does not copy text, tables, stat blocks, maps or artwork from published books or games, except openly licensed material (for example the D&amp;D SRD or the CC BY 4.0 text of Ratas en las paredes), which I credit as its licence requires. For anything else, it refers to the relevant book and page.</span><span lang="de">Das Szenario kopiert keine Texte, Tabellen, Werteblöcke, Karten oder Illustrationen aus veröffentlichten Büchern oder Spielen, außer frei lizenziertem Material (zum Beispiel dem D&amp;D-SRD oder dem CC-BY-4.0-Text von Ratas en las paredes), das ich gemäß seiner Lizenz nenne. Für alles andere verweist es auf Buch und Seite.</span><span lang="fr">La partie ne copie ni texte, ni tableau, ni profil de créature, ni carte, ni illustration de livres ou jeux publiés, sauf du contenu sous licence libre (par exemple le SRD de D&amp;D ou le texte CC BY 4.0 de Ratas en las paredes), que je crédite comme l’exige sa licence. Pour le reste, elle renvoie au livre et à la page.</span><span lang="it">L’avventura non copia testi, tabelle, profili di creature, mappe o illustrazioni da libri o giochi pubblicati, salvo materiale con licenza aperta (per esempio l’SRD di D&amp;D o il testo CC BY 4.0 di Ratas en las paredes), che attribuisco come richiede la sua licenza. Per il resto rimanda al manuale e alla pagina.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-politica" value="si" required><span class="req"><span lang="es">He consultado la <a href="#sistemas">política de contenido de fans</a> del editor del sistema y el PDF incluye el aviso legal que exige (por ejemplo, el de Chaosium, Wizards of the Coast, Paizo o Paradox). Si el sistema es propio, lo indico.</span><span lang="en">I have checked the <a href="#sistemas">fan content policy</a> of the system's publisher and the PDF includes the legal notice it requires (for example, Chaosium's, Wizards of the Coast's, Paizo's or Paradox's). If the system is my own, I say so.</span><span lang="de">Ich habe die <a href="#sistemas">Fan-Content-Richtlinie</a> des Systemverlags geprüft, und die PDF enthält den geforderten rechtlichen Hinweis (zum Beispiel von Chaosium, Wizards of the Coast, Paizo oder Paradox). Ist das System mein eigenes, gebe ich das an.</span><span lang="fr">J’ai consulté la <a href="#sistemas">politique de contenu de fans</a> de l’éditeur du système et le PDF inclut la mention légale qu’elle exige (par exemple celle de Chaosium, Wizards of the Coast, Paizo ou Paradox). Si le système est le mien, je l’indique.</span><span lang="it">Ho consultato la <a href="#sistemas">politica sui contenuti dei fan</a> dell’editore del sistema e il PDF include l’avviso legale richiesto (per esempio quello di Chaosium, Wizards of the Coast, Paizo o Paradox). Se il sistema è mio, lo indico.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-imagenes" value="si" required><span class="req"><span lang="es">Las ilustraciones son mías, de dominio público o tienen una licencia que permite publicarlas aquí. No incluyen arte oficial, logotipos ni maquetación imitada de ninguna editorial. Si alguna está generada con IA, lo indico en los créditos.</span><span lang="en">The artwork is mine, in the public domain or under a licence that allows publishing it here. It includes no official artwork, logos or imitated trade dress from any publisher. If any of it is AI-generated, I say so in the credits.</span><span lang="de">Die Illustrationen stammen von mir, sind gemeinfrei oder stehen unter einer Lizenz, die ihre Veröffentlichung hier erlaubt. Sie enthalten keine offiziellen Illustrationen, Logos oder nachgeahmte Gestaltung eines Verlags. Ist eine davon mit KI erzeugt, gebe ich das in den Credits an.</span><span lang="fr">Les illustrations sont de moi, dans le domaine public ou sous une licence qui permet de les publier ici. Elles ne contiennent ni illustration officielle, ni logo, ni maquette imitée d’un éditeur. Si l’une d’elles est générée par IA, je l’indique dans les crédits.</span><span lang="it">Le illustrazioni sono mie, di pubblico dominio o con una licenza che ne consente la pubblicazione qui. Non includono illustrazioni ufficiali, loghi né impaginazioni imitate di alcun editore. Se qualcuna è generata con l’IA, lo indico nei crediti.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-cesion" value="si" required><span class="req"><span lang="es">Concedo a Episodios de Terranula una licencia gratuita, mundial y no exclusiva para alojar, mostrar y distribuir mi partida, aunque la web llegue a financiarse con publicidad, y la publico bajo la licencia que he elegido. Conservo la autoría y puedo pedir su retirada del archivo en cualquier momento.</span><span lang="en">I grant Episodios de Terranula a free, worldwide, non-exclusive licence to host, display and distribute my scenario, even if the site comes to be funded by advertising, and I release it under the licence I have chosen. I keep authorship and may ask for its removal from the archive at any time.</span><span lang="de">Ich räume Episodios de Terranula eine kostenlose, weltweite, nicht ausschließliche Lizenz ein, mein Szenario zu hosten, anzuzeigen und zu verbreiten, auch wenn sich die Website eines Tages durch Werbung finanziert, und veröffentliche es unter der gewählten Lizenz. Ich bleibe Urheber und kann jederzeit die Entfernung aus dem Archiv verlangen.</span><span lang="fr">J’accorde à Episodios de Terranula une licence gratuite, mondiale et non exclusive pour héberger, afficher et diffuser ma partie, même si le site vient à être financé par la publicité, et je la publie sous la licence choisie. Je reste l’auteur et je peux demander son retrait de l’archive à tout moment.</span><span lang="it">Concedo a Episodios de Terranula una licenza gratuita, mondiale e non esclusiva per ospitare, mostrare e distribuire la mia avventura, anche se il sito arrivasse a finanziarsi con la pubblicità, e la pubblico con la licenza scelta. Resto l’autore e posso chiederne la rimozione dall’archivio in qualsiasi momento.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-gratis" value="si" required><span class="req"><span lang="es">Entiendo que la partida será siempre gratuita, que no recibiré pago por ella y que, si usa un sistema o una ambientación de terceros, es contenido de fans no oficial.</span><span lang="en">I understand the scenario will always be free, that I will not be paid for it, and that if it uses a third-party system or setting, it is unofficial fan content.</span><span lang="de">Mir ist bewusst, dass das Szenario immer kostenlos sein wird, dass ich dafür nicht bezahlt werde und dass es, wenn es ein fremdes System oder eine fremde Welt verwendet, inoffizieller Fan-Content ist.</span><span lang="fr">Je comprends que la partie sera toujours gratuite, que je ne serai pas payé pour elle et que, si elle utilise un système ou un univers de tiers, il s’agit d’un contenu de fans non officiel.</span><span lang="it">Capisco che l’avventura sarà sempre gratuita, che non riceverò alcun compenso e che, se usa un sistema o un’ambientazione di terzi, è un contenuto dei fan non ufficiale.</span></span></label>
+      <label class="check"><input type="checkbox" name="decl-privacidad" value="si" required><span class="req"><span lang="es">Tengo 14 años o más, he leído la <a href="#privacidad">política de privacidad</a> y acepto que se use mi correo para gestionar este envío.</span><span lang="en">I am 14 or older, I have read the <a href="#privacidad">privacy policy</a> and agree to my email being used to handle this submission.</span><span lang="de">Ich bin mindestens 14 Jahre alt, habe die <a href="#privacidad">Datenschutzerklärung</a> gelesen und bin damit einverstanden, dass meine E-Mail zur Bearbeitung dieser Einreichung verwendet wird.</span><span lang="fr">J’ai 14 ans ou plus, j’ai lu la <a href="#privacidad">politique de confidentialité</a> et j’accepte que mon e-mail soit utilisé pour traiter cet envoi.</span><span lang="it">Ho almeno 14 anni, ho letto l’<a href="#privacidad">informativa sulla privacy</a> e accetto che la mia e-mail sia usata per gestire questo invio.</span></span></label>
+    </fieldset>
+
+    <div class="notice err" id="formErr" role="alert" hidden></div>
+    <div class="notice" id="formOk" role="status" hidden></div>
+    <div><button class="btn primary" type="submit"><span lang="es">Enviar a revisión</span><span lang="en">Send for review</span><span lang="de">Zur Prüfung senden</span><span lang="fr">Envoyer en relecture</span><span lang="it">Invia per la revisione</span></button></div>
+  </form>
+</section>
+
+<section id="sistemas">
+  <div class="head">
+    <h2><span lang="es">Sistemas y políticas de los editores</span><span lang="en">Systems and publisher policies</span><span lang="de">Systeme und Verlagsrichtlinien</span><span lang="fr">Systèmes et politiques des éditeurs</span><span lang="it">Sistemi e politiche degli editori</span></h2>
+    <p><span lang="es">Cada sistema tiene su propio titular y sus propias reglas para el contenido de fans. Esta tabla resume las de los juegos más habituales en el archivo. Las políticas pueden cambiar sin aviso: en caso de duda, manda siempre el texto oficial del editor, enlazado en cada fila.</span><span lang="en">Each system has its own owner and its own rules for fan content. This table summarises those of the games most common in the archive. Policies may change without notice: when in doubt, the publisher's official text, linked in each row, always prevails.</span><span lang="de">Jedes System hat seinen eigenen Rechteinhaber und eigene Regeln für Fan-Content. Diese Tabelle fasst die der im Archiv häufigsten Spiele zusammen. Richtlinien können sich ohne Vorankündigung ändern: Im Zweifel gilt immer der offizielle, in jeder Zeile verlinkte Text des Verlags.</span><span lang="fr">Chaque système a son propre titulaire et ses propres règles pour le contenu de fans. Ce tableau résume celles des jeux les plus courants dans l’archive. Les politiques peuvent changer sans préavis : en cas de doute, le texte officiel de l’éditeur, lié dans chaque ligne, prévaut toujours.</span><span lang="it">Ogni sistema ha il proprio titolare e le proprie regole per i contenuti dei fan. Questa tabella riassume quelle dei giochi più frequenti nell’archivio. Le politiche possono cambiare senza preavviso: in caso di dubbio prevale sempre il testo ufficiale dell’editore, collegato in ogni riga.</span></p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th><span lang="es">Sistema</span><span lang="en">System</span><span lang="de">System</span><span lang="fr">Système</span><span lang="it">Sistema</span></th>
+        <th><span lang="es">Base legal</span><span lang="en">Legal basis</span><span lang="de">Rechtsgrundlage</span><span lang="fr">Base juridique</span><span lang="it">Base giuridica</span></th>
+        <th><span lang="es">Qué exige a la partida</span><span lang="en">What the scenario must do</span><span lang="de">Was das Szenario erfüllen muss</span><span lang="fr">Ce que la partie doit respecter</span><span lang="it">Cosa deve rispettare l’avventura</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Dungeons &amp; Dragons</b><small><span lang="es">5ª ed. (2014) y 2024</span><span lang="en">5th ed. (2014) and 2024</span><span lang="de">5. Edition (2014) und 2024</span><span lang="fr">5e édition (2014) et 2024</span><span lang="it">5ª edizione (2014) e 2024</span> · Wizards of the Coast</small></td>
+          <td><span lang="es">Reglas del <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">SRD 5.1 y 5.2</a> bajo CC BY 4.0, irrevocable. El resto (Reinos Olvidados, monstruos fuera del SRD) solo como contenido de fans gratuito según la <a href="https://company.wizards.com/fancontentpolicy" target="_blank" rel="noopener">Fan Content Policy</a>.</span><span lang="en">Rules from the <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">SRD 5.1 and 5.2</a> under CC BY 4.0, irrevocable. Everything else (Forgotten Realms, non-SRD monsters) only as free fan content under the <a href="https://company.wizards.com/fancontentpolicy" target="_blank" rel="noopener">Fan Content Policy</a>.</span><span lang="de">Regeln aus dem <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">SRD 5.1 und 5.2</a> unter CC BY 4.0, unwiderruflich. Alles andere (Vergessene Reiche, Monster außerhalb des SRD) nur als kostenloser Fan-Content gemäß der <a href="https://company.wizards.com/fancontentpolicy" target="_blank" rel="noopener">Fan Content Policy</a>.</span><span lang="fr">Règles du <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">SRD 5.1 et 5.2</a> sous CC BY 4.0, irrévocable. Le reste (Royaumes oubliés, monstres hors SRD) uniquement comme contenu de fans gratuit selon la <a href="https://company.wizards.com/fancontentpolicy" target="_blank" rel="noopener">Fan Content Policy</a>.</span><span lang="it">Regole dell’<a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">SRD 5.1 e 5.2</a> con licenza CC BY 4.0, irrevocabile. Il resto (Forgotten Realms, mostri fuori dall’SRD) solo come contenuto dei fan gratuito secondo la <a href="https://company.wizards.com/fancontentpolicy" target="_blank" rel="noopener">Fan Content Policy</a>.</span></td>
+          <td><span lang="es">Frase de atribución del SRD usado y, si hay material ajeno al SRD, el aviso de contenido de fans de Wizards. Sin logotipos de D&amp;D.</span><span lang="en">The attribution statement of the SRD used and, if there is non-SRD material, Wizards' fan content notice. No D&amp;D logos.</span><span lang="de">Die Namensnennung des verwendeten SRD und, bei Material außerhalb des SRD, der Fan-Content-Hinweis von Wizards. Keine D&amp;D-Logos.</span><span lang="fr">La mention d’attribution du SRD utilisé et, s’il y a du contenu hors SRD, la mention de contenu de fans de Wizards. Pas de logos de D&amp;D.</span><span lang="it">La frase di attribuzione dell’SRD usato e, se c’è materiale fuori dall’SRD, l’avviso per i contenuti dei fan di Wizards. Nessun logo di D&amp;D.</span></td>
+        </tr>
+        <tr>
+          <td><b>La llamada de Cthulhu</b><small><span lang="es">Todas las ediciones</span><span lang="en">All editions</span><span lang="de">Alle Editionen</span><span lang="fr">Toutes les éditions</span><span lang="it">Tutte le edizioni</span> · Chaosium Inc.</small></td>
+          <td><span lang="es"><a href="https://www.chaosium.com/fan-material-policy" target="_blank" rel="noopener">Fan Material Policy</a> (rev. 13-10-2023): uso no comercial de nombres, conceptos y citas breves, sin cobrar por el acceso. La política no menciona expresamente los escenarios; Chaosium los admite en la práctica si llevan su aviso.</span><span lang="en"><a href="https://www.chaosium.com/fan-material-policy" target="_blank" rel="noopener">Fan Material Policy</a> (rev. 13 Oct 2023): non-commercial use of names, concepts and short quotations, with no charge for access. The policy does not mention scenarios explicitly; Chaosium accepts them in practice if they carry its notice.</span><span lang="de"><a href="https://www.chaosium.com/fan-material-policy" target="_blank" rel="noopener">Fan Material Policy</a> (Fassung vom 13.10.2023): nicht kommerzielle Nutzung von Namen, Konzepten und kurzen Zitaten, ohne Gebühr für den Zugang. Szenarien werden nicht ausdrücklich erwähnt; Chaosium akzeptiert sie in der Praxis, wenn sie seinen Hinweis tragen.</span><span lang="fr"><a href="https://www.chaosium.com/fan-material-policy" target="_blank" rel="noopener">Fan Material Policy</a> (rév. 13/10/2023) : usage non commercial de noms, concepts et citations courtes, sans faire payer l’accès. La politique ne mentionne pas expressément les scénarios ; Chaosium les accepte en pratique s’ils portent sa mention.</span><span lang="it"><a href="https://www.chaosium.com/fan-material-policy" target="_blank" rel="noopener">Fan Material Policy</a> (rev. 13/10/2023): uso non commerciale di nomi, concetti e citazioni brevi, senza far pagare l’accesso. La politica non menziona espressamente gli scenari; Chaosium li accetta nella pratica se riportano il suo avviso.</span></td>
+          <td><span lang="es">El aviso completo de Chaosium. Sin logotipos ni maquetación imitada, sin copiar texto (remitir a la página del manual), sin gore excesivo ni contenido sexual.</span><span lang="en">Chaosium's full notice. No logos or imitated trade dress, no copied text (refer to the book's page), no excessive gore or sexual content.</span><span lang="de">Der vollständige Hinweis von Chaosium. Keine Logos oder nachgeahmte Gestaltung, kein kopierter Text (auf die Buchseite verweisen), keine übermäßige Gewalt und keine sexuellen Inhalte.</span><span lang="fr">La mention complète de Chaosium. Pas de logos ni de maquette imitée, pas de texte copié (renvoyer à la page du livre), pas de gore excessif ni de contenu sexuel.</span><span lang="it">L’avviso completo di Chaosium. Nessun logo né impaginazione imitata, nessun testo copiato (rimandare alla pagina del manuale), niente splatter eccessivo né contenuti sessuali.</span></td>
+        </tr>
+        <tr>
+          <td><b>Ratas en las paredes</b><small>Kobayashi · Les Livres d’Ours · <span lang="es">ed. española de</span><span lang="en">Spanish edition by</span><span lang="de">spanische Ausgabe von</span><span lang="fr">édition espagnole de</span><span lang="it">edizione spagnola di</span> The Hills Press</small></td>
+          <td><span lang="es">Según los créditos del libro, la mayor parte de su texto está bajo CC BY 4.0, salvo el logotipo y las secciones que el propio libro excluye.</span><span lang="en">According to the book's credits, most of its text is under CC BY 4.0, except the logo and the sections the book itself excludes.</span><span lang="de">Laut den Credits des Buches steht der Großteil seines Textes unter CC BY 4.0, außer dem Logo und den vom Buch selbst ausgenommenen Abschnitten.</span><span lang="fr">D’après les crédits du livre, l’essentiel de son texte est sous CC BY 4.0, sauf le logo et les sections que le livre exclut lui-même.</span><span lang="it">Secondo i crediti del libro, la maggior parte del testo è sotto CC BY 4.0, tranne il logo e le sezioni che il libro stesso esclude.</span></td>
+          <td><span lang="es">Atribución CC BY 4.0 a sus autores y editoriales si se reutiliza texto del juego. No usar el logotipo ni las secciones excluidas.</span><span lang="en">CC BY 4.0 attribution to its authors and publishers if game text is reused. Do not use the logo or the excluded sections.</span><span lang="de">Namensnennung nach CC BY 4.0 an Autoren und Verlage, wenn Spieltext wiederverwendet wird. Logo und ausgenommene Abschnitte nicht verwenden.</span><span lang="fr">Attribution CC BY 4.0 à ses auteurs et éditeurs si du texte du jeu est réutilisé. Ne pas utiliser le logo ni les sections exclues.</span><span lang="it">Attribuzione CC BY 4.0 ad autori ed editori se si riutilizza testo del gioco. Non usare il logo né le sezioni escluse.</span></td>
+        </tr>
+        <tr>
+          <td><b>Vampiro: La Mascarada</b><small><span lang="es">y el resto del Mundo de Tinieblas · Paradox Interactive</span><span lang="en">and the rest of the World of Darkness · Paradox Interactive</span><span lang="de">und die übrige World of Darkness · Paradox Interactive</span><span lang="fr">et le reste du Monde des Ténèbres · Paradox Interactive</span><span lang="it">e il resto del Mondo di Tenebra · Paradox Interactive</span></small></td>
+          <td><span lang="es"><a href="https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement" target="_blank" rel="noopener">Dark Pack Agreement</a>: contenido de fans no comercial. Las aventuras escritas no figuran en su lista de ejemplos; Paradox pide consultar los casos no listados.</span><span lang="en"><a href="https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement" target="_blank" rel="noopener">Dark Pack Agreement</a>: non-commercial fan content. Written adventures are not in its list of examples; Paradox asks to be consulted about unlisted cases.</span><span lang="de"><a href="https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement" target="_blank" rel="noopener">Dark Pack Agreement</a>: nicht kommerzieller Fan-Content. Geschriebene Abenteuer stehen nicht in der Liste der Beispiele; Paradox bittet, bei nicht aufgeführten Fällen nachzufragen.</span><span lang="fr"><a href="https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement" target="_blank" rel="noopener">Dark Pack Agreement</a> : contenu de fans non commercial. Les aventures écrites ne figurent pas dans sa liste d’exemples ; Paradox demande à être consulté pour les cas non listés.</span><span lang="it"><a href="https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement" target="_blank" rel="noopener">Dark Pack Agreement</a>: contenuti dei fan non commerciali. Le avventure scritte non compaiono nel suo elenco di esempi; Paradox chiede di essere consultata per i casi non elencati.</span></td>
+          <td><span lang="es">El logotipo Dark Pack y el aviso de Paradox en el PDF, más la indicación de que no es material oficial. Sin reproducir libros.</span><span lang="en">The Dark Pack logo and Paradox's notice in the PDF, plus a statement that it is not official material. No reproduction of books.</span><span lang="de">Das Dark-Pack-Logo und der Hinweis von Paradox in der PDF sowie die Angabe, dass es kein offizielles Material ist. Keine Wiedergabe von Büchern.</span><span lang="fr">Le logo Dark Pack et la mention de Paradox dans le PDF, ainsi que l’indication qu’il ne s’agit pas de matériel officiel. Aucune reproduction de livres.</span><span lang="it">Il logo Dark Pack e l’avviso di Paradox nel PDF, più l’indicazione che non si tratta di materiale ufficiale. Nessuna riproduzione di libri.</span></td>
+        </tr>
+        <tr>
+          <td><b>Pathfinder · Starfinder</b><small>Paizo Inc.</small></td>
+          <td><span lang="es"><a href="https://paizo.com/licenses/communityuse" target="_blank" rel="noopener">Community Use Policy</a> para contenido gratuito, o la licencia ORC para usar solo las reglas.</span><span lang="en"><a href="https://paizo.com/licenses/communityuse" target="_blank" rel="noopener">Community Use Policy</a> for free content, or the ORC licence to use the rules only.</span><span lang="de"><a href="https://paizo.com/licenses/communityuse" target="_blank" rel="noopener">Community Use Policy</a> für kostenlose Inhalte oder die ORC-Lizenz, um nur die Regeln zu nutzen.</span><span lang="fr"><a href="https://paizo.com/licenses/communityuse" target="_blank" rel="noopener">Community Use Policy</a> pour le contenu gratuit, ou la licence ORC pour n’utiliser que les règles.</span><span lang="it"><a href="https://paizo.com/licenses/communityuse" target="_blank" rel="noopener">Community Use Policy</a> per i contenuti gratuiti, oppure la licenza ORC per usare solo le regole.</span></td>
+          <td><span lang="es">El aviso de la Community Use Policy o el de la ORC, según la vía elegida, y un contacto visible del autor.</span><span lang="en">The Community Use Policy notice or the ORC notice, depending on the route chosen, and a visible contact for the author.</span><span lang="de">Der Hinweis der Community Use Policy oder der ORC, je nach gewähltem Weg, und ein sichtbarer Kontakt des Autors.</span><span lang="fr">La mention de la Community Use Policy ou celle de l’ORC, selon la voie choisie, et un contact visible de l’auteur.</span><span lang="it">L’avviso della Community Use Policy o quello dell’ORC, secondo la via scelta, e un contatto visibile dell’autore.</span></td>
+        </tr>
+        <tr>
+          <td><b><span lang="es">Sistemas libres</span><span lang="en">Open systems</span><span lang="de">Freie Systeme</span><span lang="fr">Systèmes libres</span><span lang="it">Sistemi liberi</span></b><small>Fate, Cairn, retroclones OSR…</small></td>
+          <td><span lang="es">La licencia abierta de cada juego (CC BY, CC BY-SA, OGL…).</span><span lang="en">Each game's open licence (CC BY, CC BY-SA, OGL…).</span><span lang="de">Die freie Lizenz des jeweiligen Spiels (CC BY, CC BY-SA, OGL…).</span><span lang="fr">La licence libre de chaque jeu (CC BY, CC BY-SA, OGL…).</span><span lang="it">La licenza aperta di ciascun gioco (CC BY, CC BY-SA, OGL…).</span></td>
+          <td><span lang="es">La atribución exacta que pida esa licencia. Si es CC BY-SA, la partida debe usar una licencia compatible.</span><span lang="en">The exact attribution that licence requires. If it is CC BY-SA, the scenario must use a compatible licence.</span><span lang="de">Genau die Namensnennung, die diese Lizenz verlangt. Bei CC BY-SA muss das Szenario eine kompatible Lizenz verwenden.</span><span lang="fr">L’attribution exacte que demande cette licence. Si elle est CC BY-SA, la partie doit utiliser une licence compatible.</span><span lang="it">L’attribuzione esatta richiesta da quella licenza. Se è CC BY-SA, l’avventura deve usare una licenza compatibile.</span></td>
+        </tr>
+        <tr>
+          <td><b><span lang="es">Otros sistemas comerciales</span><span lang="en">Other commercial systems</span><span lang="de">Andere kommerzielle Systeme</span><span lang="fr">Autres systèmes commerciaux</span><span lang="it">Altri sistemi commerciali</span></b><small>Aquelarre, El Anillo Único, Powered by the Apocalypse…</small></td>
+          <td><span lang="es">La política de fans del editor, si la tiene. Si no la tiene, solo contenido original que mencione el juego para indicar compatibilidad.</span><span lang="en">The publisher's fan policy, if any. If there is none, only original content that names the game to state compatibility.</span><span lang="de">Die Fan-Richtlinie des Verlags, falls vorhanden. Andernfalls nur eigene Inhalte, die das Spiel nennen, um Kompatibilität anzugeben.</span><span lang="fr">La politique de fans de l’éditeur, s’il en a une. Sinon, uniquement du contenu original qui nomme le jeu pour indiquer la compatibilité.</span><span lang="it">La politica per i fan dell’editore, se esiste. Altrimenti solo contenuti originali che nominano il gioco per indicarne la compatibilità.</span></td>
+          <td><span lang="es">“Para usar con [juego], de [editorial]”, sin texto, tablas, logotipos ni arte del juego. Se retira si el editor lo pide.</span><span lang="en">“For use with [game], by [publisher]”, with no text, tables, logos or artwork from the game. Removed if the publisher asks.</span><span lang="de">„Zur Verwendung mit [Spiel] von [Verlag]“, ohne Texte, Tabellen, Logos oder Illustrationen des Spiels. Wird entfernt, wenn der Verlag es verlangt.</span><span lang="fr">« Pour [jeu], de [éditeur] », sans texte, tableau, logo ni illustration du jeu. Retirée si l’éditeur le demande.</span><span lang="it">«Da usare con [gioco], di [editore]», senza testi, tabelle, loghi né illustrazioni del gioco. Rimossa se l’editore lo chiede.</span></td>
+        </tr>
+        <tr>
+          <td><b><span lang="es">Sistema propio</span><span lang="en">Original system</span><span lang="de">Eigenes System</span><span lang="fr">Système original</span><span lang="it">Sistema proprio</span></b></td>
+          <td><span lang="es">Solo la licencia que elige el autor.</span><span lang="en">Only the licence the author chooses.</span><span lang="de">Nur die vom Autor gewählte Lizenz.</span><span lang="fr">Seulement la licence choisie par l’auteur.</span><span lang="it">Solo la licenza scelta dall’autore.</span></td>
+          <td><span lang="es">Nada más, salvo que use una ambientación ajena.</span><span lang="en">Nothing else, unless it uses someone else's setting.</span><span lang="de">Nichts weiter, es sei denn, es verwendet eine fremde Welt.</span><span lang="fr">Rien d’autre, sauf si elle utilise l’univers de quelqu’un d’autre.</span><span lang="it">Nient’altro, a meno che usi un’ambientazione altrui.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="legal" style="margin-top:1.2rem">
+    <details id="lovecraft"><summary><span lang="es">Lovecraft y los Mitos de Cthulhu</span><span lang="en">Lovecraft and the Cthulhu Mythos</span><span lang="de">Lovecraft und der Cthulhu-Mythos</span><span lang="fr">Lovecraft et le Mythe de Cthulhu</span><span lang="it">Lovecraft e i Miti di Cthulhu</span></summary><div class="in">
+      <p lang="es">H. P. Lovecraft murió en 1937. Como falleció antes del 7 de diciembre de 1987, en España sus obras se protegieron durante 80 años y están en dominio público desde el 1 de enero de 2018: puedes usar libremente a Cthulhu, el Necronomicón, Arkham o Innsmouth tal como aparecen en sus relatos. Hay tres límites:</p>
+      <ul lang="es">
+        <li><b>Las traducciones</b> son obras propias de sus traductores. Para citar un relato en castellano, usa una traducción en dominio público o traduce tú mismo.</li>
+        <li><b>Los Mitos posteriores</b> (Derleth, Lumley, Campbell y otros autores) pueden seguir protegidos.</li>
+        <li><b>Los libros de juego</b> son obras protegidas aunque traten de los Mitos. Las reglas de cordura, los perfiles de criaturas y los textos de La llamada de Cthulhu pertenecen a Chaosium; los de Ratas en las paredes, a sus autores, bajo la licencia indicada arriba.</li>
+      </ul>
+      <p lang="en">H. P. Lovecraft died in 1937. Because he died before 7 December 1987, his works were protected in Spain for 80 years and have been in the public domain there since 1 January 2018: you may freely use Cthulhu, the Necronomicon, Arkham or Innsmouth as they appear in his stories. There are three limits:</p><p lang="de">H. P. Lovecraft starb 1937. Da er vor dem 7. Dezember 1987 starb, waren seine Werke in Spanien 80 Jahre lang geschützt und sind dort seit dem 1. Januar 2018 gemeinfrei: Du kannst Cthulhu, das Necronomicon, Arkham oder Innsmouth so, wie sie in seinen Erzählungen vorkommen, frei verwenden. Es gibt drei Grenzen:</p><p lang="fr">H. P. Lovecraft est mort en 1937. Comme il est décédé avant le 7 décembre 1987, ses œuvres ont été protégées en Espagne pendant 80 ans et y sont dans le domaine public depuis le 1er janvier 2018 : vous pouvez utiliser librement Cthulhu, le Necronomicon, Arkham ou Innsmouth tels qu’ils apparaissent dans ses récits. Il y a trois limites :</p><p lang="it">H. P. Lovecraft morì nel 1937. Poiché morì prima del 7 dicembre 1987, in Spagna le sue opere sono state protette per 80 anni e sono di pubblico dominio dal 1º gennaio 2018: puoi usare liberamente Cthulhu, il Necronomicon, Arkham o Innsmouth così come compaiono nei suoi racconti. Ci sono tre limiti:</p>
+      <ul lang="en">
+        <li><b>Translations</b> are works of their translators. To quote a story in Spanish, use a public-domain translation or translate it yourself.</li>
+        <li><b>Later Mythos</b> (Derleth, Lumley, Campbell and other authors) may still be protected.</li>
+        <li><b>Game books</b> are protected works even when they deal with the Mythos. Sanity rules, creature stats and Call of Cthulhu text belong to Chaosium; those of Ratas en las paredes belong to its authors, under the licence given above.</li>
+      </ul><ul lang="de"><li><b>Übersetzungen</b> sind Werke ihrer Übersetzer. Um eine Erzählung auf Spanisch zu zitieren, verwende eine gemeinfreie Übersetzung oder übersetze selbst.</li><li><b>Spätere Mythos-Werke</b> (Derleth, Lumley, Campbell und andere Autoren) können noch geschützt sein.</li><li><b>Spielbücher</b> sind geschützte Werke, auch wenn sie vom Mythos handeln. Geistige-Stabilitäts-Regeln, Kreaturenwerte und Texte von Call of Cthulhu gehören Chaosium; die von Ratas en las paredes ihren Autoren, unter der oben genannten Lizenz.</li></ul><ul lang="fr"><li><b>Les traductions</b> sont des œuvres de leurs traducteurs. Pour citer un récit en espagnol, utilisez une traduction du domaine public ou traduisez vous-même.</li><li><b>Le Mythe postérieur</b> (Derleth, Lumley, Campbell et d’autres auteurs) peut encore être protégé.</li><li><b>Les livres de jeu</b> sont des œuvres protégées même lorsqu’ils traitent du Mythe. Les règles de santé mentale, les profils de créatures et les textes de L’Appel de Cthulhu appartiennent à Chaosium ; ceux de Ratas en las paredes à ses auteurs, sous la licence indiquée plus haut.</li></ul><ul lang="it"><li><b>Le traduzioni</b> sono opere dei loro traduttori. Per citare un racconto in spagnolo, usa una traduzione di pubblico dominio o traduci tu stesso.</li><li><b>I Miti successivi</b> (Derleth, Lumley, Campbell e altri autori) possono essere ancora protetti.</li><li><b>I manuali di gioco</b> sono opere protette anche quando trattano dei Miti. Le regole sulla sanità mentale, i profili delle creature e i testi del Richiamo di Cthulhu appartengono a Chaosium; quelli di Ratas en las paredes ai suoi autori, con la licenza indicata sopra.</li></ul>
+      <p class="hint"><span lang="es">El dominio público depende del país. Este archivo se rige por la ley española.</span><span lang="en">Public domain status depends on the country. This archive is governed by Spanish law.</span><span lang="de">Ob ein Werk gemeinfrei ist, hängt vom Land ab. Dieses Archiv unterliegt spanischem Recht.</span><span lang="fr">Le statut de domaine public dépend du pays. Cette archive est régie par le droit espagnol.</span><span lang="it">Il pubblico dominio dipende dal paese. Questo archivio è regolato dalla legge spagnola.</span></p>
+    </div></details>
+  </div>
+</section>
+
+<section id="licencias">
+  <div class="head">
+    <h2><span lang="es">Licencias y cesión de derechos</span><span lang="en">Licences and rights</span><span lang="de">Lizenzen und Rechte</span><span lang="fr">Licences et droits</span><span lang="it">Licenze e diritti</span></h2>
+    <p><span lang="es">Quien envía una partida no cede su propiedad. Concede permisos para que el archivo la distribuya y elige una licencia Creative Commons que dice a cada lector qué puede hacer con ella.</span><span lang="en">Submitting a scenario does not transfer its ownership. The author grants the archive permission to distribute it and chooses a Creative Commons licence that tells every reader what they may do with it.</span><span lang="de">Wer ein Szenario einreicht, überträgt nicht sein Eigentum daran. Der Autor erlaubt dem Archiv, es zu verbreiten, und wählt eine Creative-Commons-Lizenz, die jedem Leser sagt, was er damit tun darf.</span><span lang="fr">Proposer une partie n’en transfère pas la propriété. L’auteur autorise l’archive à la diffuser et choisit une licence Creative Commons qui indique à chaque lecteur ce qu’il peut en faire.</span><span lang="it">Chi invia un’avventura non ne cede la proprietà. L’autore autorizza l’archivio a distribuirla e sceglie una licenza Creative Commons che dice a ogni lettore cosa può farne.</span></p>
+  </div>
+  <div class="legal">
+    <details open><summary><span lang="es">Qué puedes hacer con una partida descargada</span><span lang="en">What you can do with a downloaded scenario</span><span lang="de">Was du mit einem heruntergeladenen Szenario tun darfst</span><span lang="fr">Ce que vous pouvez faire d’une partie téléchargée</span><span lang="it">Cosa puoi fare con un’avventura scaricata</span></summary><div class="in">
+      <ul lang="es">
+        <li>Jugarla, imprimirla y compartirla con tu grupo, siempre gratis.</li>
+        <li>Con CC BY-NC-SA 4.0 o CC BY-NC 4.0: adaptarla y publicar tu versión sin fines comerciales, citando a su autor. Con la primera, tu versión debe usar la misma licencia.</li>
+        <li>Con CC0 1.0: usar su texto original como quieras, sin obligación de citar. La dedicación no alcanza al material de terceros que contenga.</li>
+        <li>No puedes venderla si usa un sistema o una ambientación de terceros con política de fans no comercial, aunque la licencia del autor lo permitiera.</li>
+        <li>Puedes traducirla al otro idioma del archivo y enviarnos la traducción, citando al autor original, siempre que la licencia permita adaptaciones.</li>
+      </ul>
+      <ul lang="en">
+        <li>Play it, print it and share it with your group, always for free.</li>
+        <li>Under CC BY-NC-SA 4.0 or CC BY-NC 4.0: adapt it and publish your version for non-commercial purposes, crediting the author. Under the first, your version must use the same licence.</li>
+        <li>Under CC0 1.0: use its original text however you like, with no obligation to credit. The dedication does not cover any third-party material it contains.</li>
+        <li>You may not sell it if it uses a third-party system or setting whose fan policy is non-commercial, even where the author's licence would allow it.</li>
+        <li>You may translate it into the archive's other language and send us the translation, crediting the original author, as long as the licence allows adaptations.</li>
+      </ul><ul lang="de"><li>Es spielen, ausdrucken und mit deiner Gruppe teilen, immer kostenlos.</li><li>Mit CC BY-NC-SA 4.0 oder CC BY-NC 4.0: es bearbeiten und deine Fassung nicht kommerziell veröffentlichen, mit Nennung des Autors. Bei der ersten muss deine Fassung dieselbe Lizenz verwenden.</li><li>Mit CC0 1.0: den Originaltext beliebig nutzen, ohne Pflicht zur Namensnennung. Die Widmung gilt nicht für enthaltenes Material Dritter.</li><li>Du darfst es nicht verkaufen, wenn es ein fremdes System oder eine fremde Welt mit nicht kommerzieller Fan-Richtlinie verwendet, selbst wenn die Lizenz des Autors es erlauben würde.</li><li>Du darfst es in die andere Sprache des Archivs übersetzen und uns die Übersetzung schicken, mit Nennung des ursprünglichen Autors, sofern die Lizenz Bearbeitungen erlaubt.</li></ul><ul lang="fr"><li>La jouer, l’imprimer et la partager avec votre groupe, toujours gratuitement.</li><li>Sous CC BY-NC-SA 4.0 ou CC BY-NC 4.0 : l’adapter et publier votre version à des fins non commerciales, en citant l’auteur. Avec la première, votre version doit utiliser la même licence.</li><li>Sous CC0 1.0 : utiliser son texte original comme vous le souhaitez, sans obligation de citer. La dédicace ne couvre pas le contenu de tiers qu’elle contient.</li><li>Vous ne pouvez pas la vendre si elle utilise un système ou un univers de tiers dont la politique de fans est non commerciale, même si la licence de l’auteur le permettait.</li><li>Vous pouvez la traduire dans l’autre langue de l’archive et nous envoyer la traduction, en citant l’auteur d’origine, si la licence autorise les adaptations.</li></ul><ul lang="it"><li>Giocarla, stamparla e condividerla con il tuo gruppo, sempre gratis.</li><li>Con CC BY-NC-SA 4.0 o CC BY-NC 4.0: adattarla e pubblicare la tua versione senza fini commerciali, citando l’autore. Con la prima, la tua versione deve usare la stessa licenza.</li><li>Con CC0 1.0: usare il testo originale come vuoi, senza obbligo di citare. La dedica non copre il materiale di terzi che contiene.</li><li>Non puoi venderla se usa un sistema o un’ambientazione di terzi con una politica per i fan non commerciale, anche se la licenza dell’autore lo permettesse.</li><li>Puoi tradurla nell’altra lingua dell’archivio e inviarci la traduzione, citando l’autore originale, se la licenza consente gli adattamenti.</li></ul>
+    </div></details>
+    <details><summary><span lang="es">Material de terceros que contienen las partidas</span><span lang="en">Third-party material in the scenarios</span><span lang="de">Material Dritter in den Szenarien</span><span lang="fr">Contenu de tiers dans les parties</span><span lang="it">Materiale di terzi nelle avventure</span></summary><div class="in">
+      <p lang="es">La licencia que elige cada autor solo cubre lo que ha creado él. Las reglas, nombres, lugares y personajes de juegos ajenos conservan sus propios derechos y se usan según la licencia abierta o la política de fans de su titular (véase <a href="#sistemas">Sistemas y políticas</a>). Cada ficha del catálogo muestra el aviso que corresponde a su sistema.</p>
+      <p lang="en">The licence each author chooses covers only what they created. Rules, names, places and characters from other games keep their own rights and are used under their owner's open licence or fan policy (see <a href="#sistemas">Systems and policies</a>). Each catalogue entry shows the notice that applies to its system.</p><p lang="de">Die Lizenz, die jeder Autor wählt, gilt nur für das, was er selbst geschaffen hat. Regeln, Namen, Orte und Figuren aus anderen Spielen behalten ihre eigenen Rechte und werden gemäß der freien Lizenz oder Fan-Richtlinie ihres Inhabers verwendet (siehe <a href="#sistemas">Systeme und Richtlinien</a>). Jeder Katalogeintrag zeigt den Hinweis, der für sein System gilt.</p><p lang="fr">La licence choisie par chaque auteur ne couvre que ce qu’il a créé. Les règles, noms, lieux et personnages d’autres jeux conservent leurs propres droits et sont utilisés selon la licence libre ou la politique de fans de leur titulaire (voir <a href="#sistemas">Systèmes et politiques</a>). Chaque fiche du catalogue affiche la mention qui s’applique à son système.</p><p lang="it">La licenza scelta da ogni autore copre solo ciò che ha creato. Regole, nomi, luoghi e personaggi di altri giochi conservano i propri diritti e sono usati secondo la licenza aperta o la politica per i fan del titolare (vedi <a href="#sistemas">Sistemi e politiche</a>). Ogni scheda del catalogo mostra l’avviso relativo al suo sistema.</p>
+    </div></details>
+    <details><summary><span lang="es">Qué permiso concede el autor al archivo</span><span lang="en">What permission the author grants the archive</span><span lang="de">Welche Erlaubnis der Autor dem Archiv erteilt</span><span lang="fr">Quelle autorisation l’auteur accorde à l’archive</span><span lang="it">Quale permesso concede l’autore all’archivio</span></summary><div class="in">
+      <p lang="es">Una licencia gratuita, mundial y no exclusiva para alojar, mostrar y distribuir la partida en esta web, también si la web llega a financiarse con publicidad. Las partidas seguirán siendo siempre gratuitas y la publicidad nunca aparecerá dentro de los PDF. El autor puede publicarla también en otros sitios y puede pedir su retirada del archivo cuando quiera. La retirada no afecta a las copias que otras personas ya hayan descargado legítimamente bajo la licencia Creative Commons, porque esas licencias no se pueden revocar.</p>
+      <p lang="en">A free, worldwide, non-exclusive licence to host, display and distribute the scenario on this site, including if the site comes to be funded by advertising. Scenarios will always remain free, and advertising will never appear inside the PDFs. The author may also publish it elsewhere and may ask for its removal from the archive at any time. Removal does not affect copies other people have already downloaded lawfully under the Creative Commons licence, because those licences cannot be revoked.</p><p lang="de">Eine kostenlose, weltweite, nicht ausschließliche Lizenz, das Szenario auf dieser Website zu hosten, anzuzeigen und zu verbreiten, auch wenn sich die Website eines Tages durch Werbung finanziert. Die Szenarien bleiben immer kostenlos, und Werbung erscheint nie in den PDFs. Der Autor kann es auch anderswo veröffentlichen und jederzeit die Entfernung aus dem Archiv verlangen. Die Entfernung betrifft keine Kopien, die andere bereits rechtmäßig unter der Creative-Commons-Lizenz heruntergeladen haben, denn diese Lizenzen sind unwiderruflich.</p><p lang="fr">Une licence gratuite, mondiale et non exclusive pour héberger, afficher et diffuser la partie sur ce site, y compris si le site vient à être financé par la publicité. Les parties resteront toujours gratuites, et la publicité n’apparaîtra jamais dans les PDF. L’auteur peut aussi la publier ailleurs et demander son retrait de l’archive quand il le souhaite. Le retrait n’affecte pas les copies que d’autres ont déjà téléchargées légalement sous la licence Creative Commons, car ces licences sont irrévocables.</p><p lang="it">Una licenza gratuita, mondiale e non esclusiva per ospitare, mostrare e distribuire l’avventura su questo sito, anche se il sito arrivasse a finanziarsi con la pubblicità. Le avventure resteranno sempre gratuite e la pubblicità non comparirà mai nei PDF. L’autore può pubblicarla anche altrove e chiederne la rimozione dall’archivio quando vuole. La rimozione non riguarda le copie che altri hanno già scaricato legittimamente con la licenza Creative Commons, perché queste licenze sono irrevocabili.</p>
+    </div></details>
+    <details><summary><span lang="es">Por qué no aceptamos material oficial</span><span lang="en">Why we do not accept official material</span><span lang="de">Warum wir kein offizielles Material annehmen</span><span lang="fr">Pourquoi nous n’acceptons pas de contenu officiel</span><span lang="it">Perché non accettiamo materiale ufficiale</span></summary><div class="in">
+      <p lang="es">Las políticas de fans de Wizards of the Coast, Chaosium, Paizo y Paradox permiten crear contenido gratuito con su propiedad intelectual, pero ninguna autoriza a reproducir sus libros, sus logotipos ni su maquetación. Muchos otros editores no tienen ninguna política pública. Por eso solo publicamos partidas originales que remiten a los manuales en lugar de copiarlos, salvo el texto que su titular haya publicado con licencia abierta.</p>
+      <p lang="en">The fan policies of Wizards of the Coast, Chaosium, Paizo and Paradox allow free content using their intellectual property, but none of them allows reproducing their books, logos or trade dress. Many other publishers have no public policy at all. That is why we only publish original scenarios that refer to the books instead of copying them, except text its owner has released under an open licence.</p><p lang="de">Die Fan-Richtlinien von Wizards of the Coast, Chaosium, Paizo und Paradox erlauben kostenlose Inhalte mit ihrem geistigen Eigentum, aber keine erlaubt es, ihre Bücher, Logos oder Gestaltung wiederzugeben. Viele andere Verlage haben gar keine öffentliche Richtlinie. Deshalb veröffentlichen wir nur eigene Szenarien, die auf die Bücher verweisen, statt sie zu kopieren, außer Texten, die ihr Inhaber unter einer freien Lizenz veröffentlicht hat.</p><p lang="fr">Les politiques de fans de Wizards of the Coast, Chaosium, Paizo et Paradox autorisent le contenu gratuit utilisant leur propriété intellectuelle, mais aucune ne permet de reproduire leurs livres, logos ou maquettes. Beaucoup d’autres éditeurs n’ont aucune politique publique. C’est pourquoi nous ne publions que des parties originales qui renvoient aux livres au lieu de les copier, sauf le texte que son titulaire a publié sous licence libre.</p><p lang="it">Le politiche per i fan di Wizards of the Coast, Chaosium, Paizo e Paradox consentono contenuti gratuiti con la loro proprietà intellettuale, ma nessuna permette di riprodurre i loro libri, loghi o impaginazioni. Molti altri editori non hanno alcuna politica pubblica. Per questo pubblichiamo solo avventure originali che rimandano ai manuali invece di copiarli, salvo il testo che il titolare ha pubblicato con licenza aperta.</p>
+    </div></details>
+  </div>
+</section>
+
+<section id="legal">
+  <div class="head">
+    <h2><span lang="es">Aviso legal y normas</span><span lang="en">Legal notice and rules</span><span lang="de">Impressum und Regeln</span><span lang="fr">Mentions légales et règles</span><span lang="it">Note legali e regole</span></h2>
+    <p lang="en">This English translation is provided for convenience. In case of any discrepancy, the Spanish version prevails.</p><p lang="de">Diese deutsche Übersetzung dient nur der Information. Bei Abweichungen gilt die spanische Fassung.</p><p lang="fr">Cette traduction française est fournie à titre indicatif. En cas de divergence, la version espagnole prévaut.</p><p lang="it">Questa traduzione italiana è fornita a titolo informativo. In caso di discrepanza prevale la versione spagnola.</p>
+  </div>
+  <div class="legal">
+    <details open><summary><span lang="es">Contenido de fans no oficial</span><span lang="en">Unofficial fan content</span><span lang="de">Inoffizieller Fan-Content</span><span lang="fr">Contenu de fans non officiel</span><span lang="it">Contenuti dei fan non ufficiali</span></summary><div class="in">
+      <p lang="es">Episodios de Terranula es un archivo independiente, sin ánimo de lucro, que no está afiliado, patrocinado ni aprobado por ninguna editorial de juegos de rol. Todas las marcas pertenecen a sus titulares. Como el archivo aloja partidas para sistemas de terceros, la web incluye los avisos que exigen sus políticas:</p>
+      <p lang="en">Episodios de Terranula is an independent, non-profit archive, not affiliated with, sponsored or endorsed by any roleplaying game publisher. All trademarks belong to their owners. Because the archive hosts scenarios for third-party systems, the site carries the notices their policies require:</p><p lang="de">Episodios de Terranula ist ein unabhängiges, nicht gewinnorientiertes Archiv, das mit keinem Rollenspielverlag verbunden ist und von keinem gesponsert oder gebilligt wird. Alle Marken gehören ihren Inhabern. Da das Archiv Szenarien für Systeme Dritter beherbergt, trägt die Website die Hinweise, die deren Richtlinien verlangen:</p><p lang="fr">Episodios de Terranula est une archive indépendante et sans but lucratif, qui n’est affiliée à aucun éditeur de jeux de rôle, ni sponsorisée ou approuvée par l’un d’eux. Toutes les marques appartiennent à leurs titulaires. Comme l’archive héberge des parties pour des systèmes de tiers, le site porte les mentions exigées par leurs politiques :</p><p lang="it">Episodios de Terranula è un archivio indipendente e senza scopo di lucro, non affiliato, sponsorizzato né approvato da alcun editore di giochi di ruolo. Tutti i marchi appartengono ai rispettivi titolari. Poiché l’archivio ospita avventure per sistemi di terzi, il sito riporta gli avvisi richiesti dalle loro politiche:</p>
+      <blockquote>Episodios de Terranula is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.</blockquote>
+      <blockquote>This website uses trademarks and/or copyrights owned by Chaosium Inc/Moon Design Publications LLC, which are used under Chaosium Inc’s Fan Material Policy. We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Chaosium Inc. For more information about Chaosium Inc’s products, please visit www.chaosium.com.</blockquote>
+      <blockquote>This website uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo’s Community Use Policy (paizo.com/licenses/communityuse). We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Paizo. For more information about Paizo Inc. and Paizo products, visit paizo.com.</blockquote>
+      <blockquote>Portions of the materials are the copyrights and trademarks of Paradox Interactive AB, and are used with permission. All rights reserved. For more information please visit worldofdarkness.com. This material is not official World of Darkness material.</blockquote>
+      <div class="dpline"><img class="dp" src="darkpack.png" alt="Dark Pack" width="64" height="64"><span class="hint">Dark Pack · Paradox Interactive AB</span></div>
+      <p lang="es">Dungeons &amp; Dragons es marca de Wizards of the Coast LLC; Call of Cthulhu, de Chaosium Inc.; Pathfinder y Starfinder, de Paizo Inc.; Vampire: The Masquerade y World of Darkness, de Paradox Interactive AB. Las reglas del SRD 5.1 y 5.2 se usan bajo licencia CC BY 4.0.</p>
+      <p lang="en">Dungeons &amp; Dragons is a trademark of Wizards of the Coast LLC; Call of Cthulhu, of Chaosium Inc.; Pathfinder and Starfinder, of Paizo Inc.; Vampire: The Masquerade and World of Darkness, of Paradox Interactive AB. Rules from the SRD 5.1 and 5.2 are used under the CC BY 4.0 licence.</p><p lang="de">Dungeons &amp; Dragons ist eine Marke von Wizards of the Coast LLC; Call of Cthulhu von Chaosium Inc.; Pathfinder und Starfinder von Paizo Inc.; Vampire: The Masquerade und World of Darkness von Paradox Interactive AB. Regeln aus dem SRD 5.1 und 5.2 werden unter der Lizenz CC BY 4.0 verwendet.</p><p lang="fr">Dungeons &amp; Dragons est une marque de Wizards of the Coast LLC ; Call of Cthulhu, de Chaosium Inc. ; Pathfinder et Starfinder, de Paizo Inc. ; Vampire: The Masquerade et World of Darkness, de Paradox Interactive AB. Les règles du SRD 5.1 et 5.2 sont utilisées sous licence CC BY 4.0.</p><p lang="it">Dungeons &amp; Dragons è un marchio di Wizards of the Coast LLC; Call of Cthulhu di Chaosium Inc.; Pathfinder e Starfinder di Paizo Inc.; Vampire: The Masquerade e World of Darkness di Paradox Interactive AB. Le regole dell’SRD 5.1 e 5.2 sono usate con licenza CC BY 4.0.</p>
+    </div></details>
+    <details><summary><span lang="es">Titular de la web</span><span lang="en">Site owner</span><span lang="de">Betreiber der Website</span><span lang="fr">Éditeur du site</span><span lang="it">Titolare del sito</span></summary><div class="in">
+      <p lang="es">En cumplimiento de la Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI), el titular de este sitio es Jorge Gómez Vaello, con domicilio a efectos de notificaciones en Madrid (España) y correo de contacto <b>episodiosdeterranula@gmail.com</b>. El sitio no tiene ánimo de lucro y actualmente no muestra publicidad.</p>
+      <p lang="en">In accordance with Spanish Law 34/2002 on Information Society Services (LSSI), this site is owned by Jorge Gómez Vaello, Madrid (Spain), contact email <b>episodiosdeterranula@gmail.com</b>. The site is non-profit and currently carries no advertising.</p><p lang="de">Gemäß dem spanischen Gesetz 34/2002 über Dienste der Informationsgesellschaft (LSSI) ist Betreiber dieser Website Jorge Gómez Vaello, Madrid (Spanien), Kontakt-E-Mail <b>episodiosdeterranula@gmail.com</b>. Die Website ist nicht gewinnorientiert und zeigt derzeit keine Werbung.</p><p lang="fr">Conformément à la loi espagnole 34/2002 sur les services de la société de l’information (LSSI), ce site est édité par Jorge Gómez Vaello, Madrid (Espagne), e-mail de contact <b>episodiosdeterranula@gmail.com</b>. Le site est sans but lucratif et n’affiche actuellement aucune publicité.</p><p lang="it">Ai sensi della legge spagnola 34/2002 sui servizi della società dell’informazione (LSSI), il titolare di questo sito è Jorge Gómez Vaello, Madrid (Spagna), e-mail di contatto <b>episodiosdeterranula@gmail.com</b>. Il sito non ha scopo di lucro e al momento non mostra pubblicità.</p>
+    </div></details>
+    <details><summary><span lang="es">Publicidad y patrocinios</span><span lang="en">Advertising and sponsorship</span><span lang="de">Werbung und Sponsoring</span><span lang="fr">Publicité et parrainage</span><span lang="it">Pubblicità e sponsorizzazioni</span></summary><div class="in">
+      <p lang="es">Hoy la web no muestra publicidad ni acepta patrocinios. Si en el futuro se financia con anuncios, patrocinios o donaciones, se aplicarán estas reglas: las partidas seguirán siendo gratuitas y descargables sin registro ni muro de pago; no habrá partidas exclusivas ni anticipadas para mecenas; los anuncios solo aparecerán en la web, nunca dentro de los PDF, y estarán identificados como publicidad, igual que cualquier patrocinador; no se usarán logotipos de ninguna editorial junto a ellos ni se dará a entender que los anunciantes cuentan con su respaldo; y antes de activarlos se actualizarán este aviso legal (con los datos que exige la LSSI) y la política de cookies, y se pedirá el consentimiento que exige la normativa. Estas reglas respetan las políticas de Wizards of the Coast, Chaosium, Paizo y Paradox, que admiten la financiación indirecta del contenido de fans pero no que se cobre por él.</p>
+      <p lang="en">The site does not currently show advertising or accept sponsorship. If it is ever funded by ads, sponsorship or donations, these rules will apply: scenarios will remain free to download with no sign-up or paywall; there will be no exclusive or early-access scenarios for patrons; ads will appear only on the site, never inside the PDFs, and will be labelled as advertising, as will any sponsor; no publisher's logo will be used next to them, nor will it be implied that advertisers are endorsed by any publisher; and before ads are enabled, this legal notice (with the details required by the LSSI) and the cookie policy will be updated and the consent required by law will be requested. These rules respect the policies of Wizards of the Coast, Chaosium, Paizo and Paradox, which allow fan content to be funded indirectly but not to be charged for.</p><p lang="de">Die Website zeigt derzeit keine Werbung und nimmt kein Sponsoring an. Sollte sie sich künftig durch Anzeigen, Sponsoring oder Spenden finanzieren, gelten diese Regeln: Die Szenarien bleiben kostenlos und ohne Registrierung oder Bezahlschranke herunterladbar; es gibt keine exklusiven oder vorab veröffentlichten Szenarien für Unterstützer; Anzeigen erscheinen nur auf der Website, nie in den PDFs, und sind wie jeder Sponsor als Werbung gekennzeichnet; neben ihnen werden keine Verlagslogos verwendet, und es wird nicht der Eindruck erweckt, die Werbenden würden von einem Verlag unterstützt; und bevor Anzeigen aktiviert werden, werden dieses Impressum (mit den vom LSSI verlangten Angaben) und die Cookie-Richtlinie aktualisiert und die gesetzlich vorgeschriebene Einwilligung eingeholt. Diese Regeln entsprechen den Richtlinien von Wizards of the Coast, Chaosium, Paizo und Paradox, die eine indirekte Finanzierung von Fan-Content erlauben, aber keine Gebühren dafür.</p><p lang="fr">Le site n’affiche actuellement aucune publicité et n’accepte aucun parrainage. S’il venait à être financé par des annonces, des parrainages ou des dons, ces règles s’appliqueraient : les parties resteront téléchargeables gratuitement, sans inscription ni accès payant ; il n’y aura pas de parties exclusives ou anticipées pour les mécènes ; les annonces n’apparaîtront que sur le site, jamais dans les PDF, et seront signalées comme publicité, tout comme les parrains ; aucun logo d’éditeur ne sera utilisé à côté d’elles, et il ne sera pas laissé entendre que les annonceurs sont soutenus par un éditeur ; et avant d’activer les annonces, ces mentions légales (avec les informations exigées par la LSSI) et la politique de cookies seront mises à jour, et le consentement exigé par la loi sera demandé. Ces règles respectent les politiques de Wizards of the Coast, Chaosium, Paizo et Paradox, qui autorisent le financement indirect du contenu de fans mais pas de le faire payer.</p><p lang="it">Al momento il sito non mostra pubblicità né accetta sponsorizzazioni. Se in futuro si finanziasse con annunci, sponsorizzazioni o donazioni, varranno queste regole: le avventure resteranno scaricabili gratis, senza registrazione né accesso a pagamento; non ci saranno avventure esclusive o in anteprima per i sostenitori; gli annunci compariranno solo sul sito, mai nei PDF, e saranno indicati come pubblicità, così come gli sponsor; accanto a essi non si useranno loghi di editori né si lascerà intendere che gli inserzionisti ne abbiano l’appoggio; e prima di attivarli si aggiorneranno queste note legali (con i dati richiesti dalla LSSI) e la cookie policy, e si chiederà il consenso previsto dalla legge. Queste regole rispettano le politiche di Wizards of the Coast, Chaosium, Paizo e Paradox, che ammettono il finanziamento indiretto dei contenuti dei fan ma non il farli pagare.</p>
+    </div></details>
+    <details><summary><span lang="es">Normas de la comunidad</span><span lang="en">Community rules</span><span lang="de">Gemeinschaftsregeln</span><span lang="fr">Règles de la communauté</span><span lang="it">Regole della comunità</span></summary><div class="in">
+      <ul lang="es">
+        <li>Solo partidas originales, en español o en inglés, para cualquier sistema.</li>
+        <li>El terror y los temas duros son bienvenidos, con público recomendado y advertencias de contenido. Las partidas de La llamada de Cthulhu deben respetar además las normas de contenido de Chaosium: sin gore excesivo ni contenido sexual.</li>
+        <li>Sin contenido sexual explícito y, en ningún caso, contenido sexual que implique a menores. Sin discursos de odio ni ataques a personas o colectivos reales.</li>
+        <li>Sin enlaces a copias no autorizadas de libros o material oficial.</li>
+        <li>Sin logotipos, emblemas, maquetación imitada ni arte oficial de ninguna editorial.</li>
+        <li>Con el aviso legal o la atribución que exija el sistema usado.</li>
+        <li>El archivo puede rechazar o retirar cualquier envío que incumpla estas normas.</li>
+      </ul>
+      <ul lang="en">
+        <li>Original scenarios only, in Spanish or English, for any system.</li>
+        <li>Horror and difficult themes are welcome, with a recommended audience and content warnings. Call of Cthulhu scenarios must also follow Chaosium's content standards: no excessive gore or sexual content.</li>
+        <li>No explicit sexual content and, under no circumstances, sexual content involving minors. No hate speech or attacks on real people or groups.</li>
+        <li>No links to unauthorised copies of books or official material.</li>
+        <li>No logos, emblems, imitated trade dress or official artwork from any publisher.</li>
+        <li>With the legal notice or attribution the system used requires.</li>
+        <li>The archive may reject or remove any submission that breaks these rules.</li>
+      </ul><ul lang="de"><li>Nur eigene Szenarien, auf Spanisch oder Englisch, für jedes System.</li><li>Horror und schwierige Themen sind willkommen, mit empfohlenem Publikum und Inhaltswarnungen. Szenarien für Call of Cthulhu müssen zudem die Inhaltsstandards von Chaosium einhalten: keine übermäßige Gewalt und keine sexuellen Inhalte.</li><li>Keine expliziten sexuellen Inhalte und unter keinen Umständen sexuelle Inhalte mit Minderjährigen. Keine Hassrede und keine Angriffe auf reale Personen oder Gruppen.</li><li>Keine Links zu unerlaubten Kopien von Büchern oder offiziellem Material.</li><li>Keine Logos, Wappen, nachgeahmte Gestaltung oder offiziellen Illustrationen eines Verlags.</li><li>Mit dem rechtlichen Hinweis oder der Namensnennung, die das verwendete System verlangt.</li><li>Das Archiv kann jede Einreichung ablehnen oder entfernen, die gegen diese Regeln verstößt.</li></ul><ul lang="fr"><li>Uniquement des parties originales, en espagnol ou en anglais, pour tout système.</li><li>L’horreur et les thèmes difficiles sont les bienvenus, avec un public recommandé et des avertissements de contenu. Les parties de L’Appel de Cthulhu doivent en outre respecter les normes de contenu de Chaosium : pas de gore excessif ni de contenu sexuel.</li><li>Pas de contenu sexuel explicite et, en aucun cas, de contenu sexuel impliquant des mineurs. Pas de discours haineux ni d’attaques contre des personnes ou des groupes réels.</li><li>Pas de liens vers des copies non autorisées de livres ou de contenu officiel.</li><li>Pas de logos, emblèmes, maquettes imitées ni illustrations officielles d’un éditeur.</li><li>Avec la mention légale ou l’attribution qu’exige le système utilisé.</li><li>L’archive peut refuser ou retirer tout envoi qui enfreint ces règles.</li></ul><ul lang="it"><li>Solo avventure originali, in spagnolo o in inglese, per qualsiasi sistema.</li><li>L’horror e i temi difficili sono benvenuti, con pubblico consigliato e avvisi sui contenuti. Le avventure per Il Richiamo di Cthulhu devono rispettare anche gli standard di contenuto di Chaosium: niente splatter eccessivo né contenuti sessuali.</li><li>Niente contenuti sessuali espliciti e, in nessun caso, contenuti sessuali che coinvolgano minori. Niente discorsi d’odio né attacchi a persone o gruppi reali.</li><li>Niente link a copie non autorizzate di libri o materiale ufficiale.</li><li>Niente loghi, emblemi, impaginazioni imitate né illustrazioni ufficiali di alcun editore.</li><li>Con l’avviso legale o l’attribuzione richiesti dal sistema usato.</li><li>L’archivio può rifiutare o rimuovere qualsiasi invio che violi queste regole.</li></ul>
+    </div></details>
+    <details id="retirada"><summary><span lang="es">Solicitar la retirada de un contenido</span><span lang="en">Requesting removal of content</span><span lang="de">Entfernung von Inhalten beantragen</span><span lang="fr">Demander le retrait d’un contenu</span><span lang="it">Richiedere la rimozione di un contenuto</span></summary><div class="in">
+      <p lang="es">Si eres autor de una partida publicada y quieres retirarla, si representas a una editorial o si crees que un contenido infringe tus derechos, escribe a <b>episodiosdeterranula@gmail.com</b> indicando el título de la partida, el motivo y, si alegas una infracción, qué obra tuya se reproduce. Retiraremos el contenido de forma cautelar mientras se revisa la solicitud.</p>
+      <p lang="en">If you are the author of a published scenario and want it removed, if you represent a publisher, or if you believe some content infringes your rights, write to <b>episodiosdeterranula@gmail.com</b> stating the title of the scenario, the reason and, if you claim infringement, which work of yours is reproduced. We will take the content down as a precaution while the request is reviewed.</p><p lang="de">Wenn du Autor eines veröffentlichten Szenarios bist und es entfernen lassen möchtest, wenn du einen Verlag vertrittst oder wenn du glaubst, dass ein Inhalt deine Rechte verletzt, schreibe an <b>episodiosdeterranula@gmail.com</b> und nenne den Titel des Szenarios, den Grund und, bei einer behaupteten Verletzung, welches deiner Werke wiedergegeben wird. Wir nehmen den Inhalt vorsorglich offline, während der Antrag geprüft wird.</p><p lang="fr">Si vous êtes l’auteur d’une partie publiée et souhaitez la retirer, si vous représentez un éditeur ou si vous estimez qu’un contenu porte atteinte à vos droits, écrivez à <b>episodiosdeterranula@gmail.com</b> en indiquant le titre de la partie, le motif et, en cas d’atteinte alléguée, quelle œuvre de vous est reproduite. Nous retirerons le contenu à titre conservatoire pendant l’examen de la demande.</p><p lang="it">Se sei l’autore di un’avventura pubblicata e vuoi rimuoverla, se rappresenti un editore o se ritieni che un contenuto violi i tuoi diritti, scrivi a <b>episodiosdeterranula@gmail.com</b> indicando il titolo dell’avventura, il motivo e, se segnali una violazione, quale tua opera viene riprodotta. Rimuoveremo il contenuto in via cautelare mentre la richiesta viene esaminata.</p>
+    </div></details>
+    <details id="privacidad"><summary><span lang="es">Política de privacidad</span><span lang="en">Privacy policy</span><span lang="de">Datenschutzerklärung</span><span lang="fr">Politique de confidentialité</span><span lang="it">Informativa sulla privacy</span></summary><div class="in">
+      <p lang="es">Responsable: Jorge Gómez Vaello. Solo tratamos el correo y el nombre que facilitas al enviar una partida, con la finalidad de gestionar la revisión y comunicarte el resultado. La base jurídica es tu consentimiento, que solo pueden prestar por sí mismas las personas de 14 años o más (art. 7 de la Ley Orgánica 3/2018). El nombre o seudónimo aparecerá en los créditos de la partida; el correo nunca se publica ni se cede a terceros, salvo al proveedor que aloja los formularios de la web (Netlify, Inc.), que actúa como encargado del tratamiento. Conservamos el correo mientras la partida siga publicada. Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <b>episodiosdeterranula@gmail.com</b>, y reclamar ante la Agencia Española de Protección de Datos.</p>
+      <p lang="es"><b>Cookies.</b> La web no usa cookies de análisis, de seguimiento ni de publicidad. Solo guarda en tu navegador el idioma que eliges, para recordarlo en tu próxima visita; es un dato técnico que no sale de tu dispositivo.</p>
+      <p lang="en">Data controller: Jorge Gómez Vaello. We only process the email address and name you provide when submitting a scenario, in order to handle the review and tell you the outcome. The legal basis is your consent, which can only be given personally by people aged 14 or over (art. 7 of Spanish Organic Law 3/2018). Your name or pen name will appear in the scenario's credits; your email is never published or shared with third parties, except the provider that hosts the site's forms (Netlify, Inc.), acting as data processor. We keep your email for as long as the scenario remains published. You may exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to <b>episodiosdeterranula@gmail.com</b>, and you may lodge a complaint with the Spanish Data Protection Agency (AEPD).</p><p lang="de">Verantwortlicher: Jorge Gómez Vaello. Wir verarbeiten nur die E-Mail-Adresse und den Namen, die du beim Einreichen eines Szenarios angibst, um die Prüfung durchzuführen und dir das Ergebnis mitzuteilen. Rechtsgrundlage ist deine Einwilligung, die nur Personen ab 14 Jahren selbst erteilen können (Art. 7 des spanischen Organgesetzes 3/2018). Dein Name oder Pseudonym erscheint in den Credits des Szenarios; deine E-Mail wird nie veröffentlicht oder an Dritte weitergegeben, außer an den Anbieter, der die Formulare der Website hostet (Netlify, Inc.) und als Auftragsverarbeiter handelt. Wir speichern deine E-Mail, solange das Szenario veröffentlicht bleibt. Du kannst deine Rechte auf Auskunft, Berichtigung, Löschung, Widerspruch, Einschränkung und Übertragbarkeit ausüben, indem du an <b>episodiosdeterranula@gmail.com</b> schreibst, und dich bei der spanischen Datenschutzbehörde (AEPD) beschweren.</p><p lang="fr">Responsable du traitement : Jorge Gómez Vaello. Nous ne traitons que l’adresse e-mail et le nom que vous fournissez en proposant une partie, afin d’assurer la relecture et de vous en communiquer le résultat. La base juridique est votre consentement, que seules les personnes de 14 ans ou plus peuvent donner elles-mêmes (art. 7 de la loi organique espagnole 3/2018). Votre nom ou pseudonyme apparaîtra dans les crédits de la partie ; votre e-mail n’est jamais publié ni cédé à des tiers, sauf au prestataire qui héberge les formulaires du site (Netlify, Inc.), agissant en tant que sous-traitant. Nous conservons votre e-mail tant que la partie reste publiée. Vous pouvez exercer vos droits d’accès, de rectification, d’effacement, d’opposition, de limitation et de portabilité en écrivant à <b>episodiosdeterranula@gmail.com</b>, et introduire une réclamation auprès de l’autorité espagnole de protection des données (AEPD).</p><p lang="it">Titolare del trattamento: Jorge Gómez Vaello. Trattiamo solo l’e-mail e il nome che fornisci inviando un’avventura, per gestire la revisione e comunicarti l’esito. La base giuridica è il tuo consenso, che possono prestare da sole solo le persone dai 14 anni in su (art. 7 della legge organica spagnola 3/2018). Il nome o pseudonimo comparirà nei crediti dell’avventura; l’e-mail non viene mai pubblicata né ceduta a terzi, salvo al fornitore che ospita i moduli del sito (Netlify, Inc.), che agisce come responsabile del trattamento. Conserviamo l’e-mail finché l’avventura resta pubblicata. Puoi esercitare i diritti di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità scrivendo a <b>episodiosdeterranula@gmail.com</b> e presentare reclamo all’Autorità spagnola per la protezione dei dati (AEPD).</p>
+      <p lang="en"><b>Cookies.</b> The site uses no analytics, tracking or advertising cookies. It only stores the language you choose in your browser, to remember it on your next visit; this technical data never leaves your device.</p><p lang="de"><b>Cookies.</b> Die Website verwendet keine Analyse-, Tracking- oder Werbe-Cookies. Sie speichert in deinem Browser nur die gewählte Sprache, um sie bei deinem nächsten Besuch zu behalten; diese technische Angabe verlässt dein Gerät nie.</p><p lang="fr"><b>Cookies.</b> Le site n’utilise aucun cookie d’analyse, de suivi ou de publicité. Il enregistre seulement dans votre navigateur la langue choisie, pour la retenir lors de votre prochaine visite ; cette donnée technique ne quitte jamais votre appareil.</p><p lang="it"><b>Cookie.</b> Il sito non usa cookie di analisi, tracciamento o pubblicità. Salva nel tuo browser solo la lingua scelta, per ricordarla alla prossima visita; è un dato tecnico che non lascia mai il tuo dispositivo.</p>
+    </div></details>
+  </div>
+</section>
+
+<footer>
+  <span class="marks"><img src="isotipo-tl.png" alt="" width="35" height="40"><img class="dp" src="darkpack.png" alt="Dark Pack" width="48" height="48"><span>Episodios de Terranula · episodiosdeterranula@gmail.com<span data-yt hidden> · <a class="ytlink" target="_blank" rel="noopener"><span lang="es">Canal de YouTube</span><span lang="en">YouTube channel</span><span lang="de">YouTube-Kanal</span><span lang="fr">Chaîne YouTube</span><span lang="it">Canale YouTube</span></a></span></span></span>
+  <span><span lang="es">Archivo comunitario · Sin ánimo de lucro · Contenido de fans no oficial</span><span lang="en">Community archive · Non-profit · Unofficial fan content</span><span lang="de">Gemeinschaftsarchiv · Nicht gewinnorientiert · Inoffizieller Fan-Content</span><span lang="fr">Archive communautaire · Sans but lucratif · Contenu de fans non officiel</span><span lang="it">Archivio della comunità · Senza scopo di lucro · Contenuti dei fan non ufficiali</span></span>
+</footer>
+</div>
+
+<script src="catalogo.js"></script>
+<script>
+(function(){
+  const DATA = Array.isArray(window.CATALOGO) ? window.CATALOGO : [];
+  const $ = id => document.getElementById(id);
+  const root = document.documentElement;
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const norm = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  const parseRange = s => { const m = String(s).match(/(\d+)\D*(\d+)?/); return m ? [ +m[1], +(m[2] || m[1]) ] : [0, 99]; };
+
+  /* Enlace al canal de YouTube: pega aquí la dirección (p. ej. https://www.youtube.com/@episodiosdeterranula) y aparecerá en el menú y en el pie. */
+  const YOUTUBE = "";
+
+  const GENEROS = [
+    ["terror","Terror","Horror","Miedo, tensión y supervivencia.","Fear, tension and survival."],
+    ["cosmico","Terror cósmico","Cosmic horror","Los Mitos, la cordura y lo incomprensible.","The Mythos, sanity and the incomprehensible."],
+    ["gotico","Gótico y sobrenatural","Gothic & supernatural","Vampiros, mansiones, maldiciones y noche eterna.","Vampires, mansions, curses and endless night."],
+    ["fantasia","Fantasía","Fantasy","Magia, criaturas y mundos imaginarios.","Magic, creatures and imagined worlds."],
+    ["epica","Aventura épica","Epic adventure","Grandes viajes, héroes y destinos en juego.","Great journeys, heroes and fates at stake."],
+    ["comedia","Comedia","Comedy","Partidas para reírse en la mesa.","Scenarios built for laughter at the table."],
+    ["misterio","Misterio e investigación","Mystery & investigation","Pistas, crímenes y secretos por resolver.","Clues, crimes and secrets to solve."],
+    ["cifi","Ciencia ficción","Science fiction","Naves, futuros y otros planetas.","Starships, futures and other planets."],
+    ["ciberpunk","Ciberpunk","Cyberpunk","Megacorporaciones, implantes y calles de neón.","Megacorps, implants and neon streets."],
+    ["postapo","Postapocalíptico","Post-apocalyptic","Lo que queda después del fin.","What remains after the end."],
+    ["historico","Histórico","Historical","Episodios ambientados en épocas reales.","Episodes set in real periods."],
+    ["mitologico","Mitológico","Mythic","Dioses, héroes y relatos fundacionales.","Gods, heroes and founding tales."],
+    ["pulp","Pulp y acción","Pulp & action","Ritmo trepidante, villanos y persecuciones.","Breakneck pace, villains and chases."],
+    ["intriga","Intriga y drama","Intrigue & drama","Política, traiciones y personajes en conflicto.","Politics, betrayal and characters in conflict."],
+    ["western","Western","Western","Pueblos fronterizos, duelos y caminos polvorientos.","Frontier towns, duels and dusty trails."],
+    ["belico","Bélico","War","Frentes, escuadras y la guerra de cerca.","Front lines, squads and war up close."],
+    ["superheroes","Superhéroes","Superheroes","Poderes, identidades secretas y ciudades en peligro.","Powers, secret identities and cities in danger."],
+    ["iniciacion","Iniciación","First-timers","Pensadas para quien nunca ha jugado a rol.","Designed for people who have never played."]
+  ];
+
+  /* Géneros en alemán, francés e italiano: nombre y descripción */
+  const GENX = {
+    terror:{de:["Horror","Angst, Spannung und Überleben."],fr:["Horreur","Peur, tension et survie."],it:["Horror","Paura, tensione e sopravvivenza."]},
+    cosmico:{de:["Kosmischer Horror","Der Mythos, geistige Stabilität und das Unbegreifliche."],fr:["Horreur cosmique","Le Mythe, la santé mentale et l’incompréhensible."],it:["Orrore cosmico","I Miti, la sanità mentale e l’incomprensibile."]},
+    gotico:{de:["Gothic & Übernatürliches","Vampire, Herrenhäuser, Flüche und ewige Nacht."],fr:["Gothique & surnaturel","Vampires, manoirs, malédictions et nuit éternelle."],it:["Gotico e soprannaturale","Vampiri, dimore, maledizioni e notte eterna."]},
+    fantasia:{de:["Fantasy","Magie, Kreaturen und erdachte Welten."],fr:["Fantasy","Magie, créatures et mondes imaginaires."],it:["Fantasy","Magia, creature e mondi immaginari."]},
+    epica:{de:["Episches Abenteuer","Große Reisen, Helden und Schicksale auf dem Spiel."],fr:["Aventure épique","Grands voyages, héros et destins en jeu."],it:["Avventura epica","Grandi viaggi, eroi e destini in gioco."]},
+    comedia:{de:["Komödie","Szenarien zum Lachen am Spieltisch."],fr:["Comédie","Des parties pour rire autour de la table."],it:["Commedia","Avventure per ridere al tavolo."]},
+    misterio:{de:["Mysterium & Ermittlung","Hinweise, Verbrechen und ungelöste Geheimnisse."],fr:["Mystère & enquête","Indices, crimes et secrets à résoudre."],it:["Mistero e indagine","Indizi, delitti e segreti da svelare."]},
+    cifi:{de:["Science-Fiction","Raumschiffe, Zukünfte und andere Planeten."],fr:["Science-fiction","Vaisseaux, futurs et autres planètes."],it:["Fantascienza","Astronavi, futuri e altri pianeti."]},
+    ciberpunk:{de:["Cyberpunk","Megakonzerne, Implantate und Neonstraßen."],fr:["Cyberpunk","Mégacorporations, implants et rues de néon."],it:["Cyberpunk","Megacorporazioni, impianti e strade al neon."]},
+    postapo:{de:["Postapokalypse","Was nach dem Ende bleibt."],fr:["Post-apocalyptique","Ce qui reste après la fin."],it:["Postapocalittico","Ciò che resta dopo la fine."]},
+    historico:{de:["Historisch","Episoden in realen Epochen."],fr:["Historique","Des épisodes situés à des époques réelles."],it:["Storico","Episodi ambientati in epoche reali."]},
+    mitologico:{de:["Mythisch","Götter, Helden und Gründungserzählungen."],fr:["Mythologique","Dieux, héros et récits fondateurs."],it:["Mitologico","Dèi, eroi e racconti fondativi."]},
+    pulp:{de:["Pulp & Action","Rasantes Tempo, Schurken und Verfolgungsjagden."],fr:["Pulp & action","Rythme effréné, méchants et poursuites."],it:["Pulp e azione","Ritmo serrato, cattivi e inseguimenti."]},
+    intriga:{de:["Intrige & Drama","Politik, Verrat und Figuren im Konflikt."],fr:["Intrigue & drame","Politique, trahisons et personnages en conflit."],it:["Intrigo e dramma","Politica, tradimenti e personaggi in conflitto."]},
+    western:{de:["Western","Grenzstädte, Duelle und staubige Wege."],fr:["Western","Villes frontières, duels et chemins poussiéreux."],it:["Western","Città di frontiera, duelli e strade polverose."]},
+    belico:{de:["Krieg","Fronten, Trupps und der Krieg aus der Nähe."],fr:["Guerre","Fronts, escouades et la guerre de près."],it:["Bellico","Fronti, squadre e la guerra da vicino."]},
+    superheroes:{de:["Superhelden","Kräfte, geheime Identitäten und bedrohte Städte."],fr:["Super-héros","Pouvoirs, identités secrètes et villes en danger."],it:["Supereroi","Poteri, identità segrete e città in pericolo."]},
+    iniciacion:{de:["Einsteiger","Für Menschen, die noch nie gespielt haben."],fr:["Initiation","Pour qui n’a jamais joué au jeu de rôle."],it:["Iniziazione","Per chi non ha mai giocato di ruolo."]}
+  };
+  const GEN = Object.fromEntries(GENEROS.map(g => [g[0], Object.assign({es:g[1], en:g[2], des:g[3], den:g[4]},
+    GENX[g[0]] ? {de:GENX[g[0]].de[0], fr:GENX[g[0]].fr[0], it:GENX[g[0]].it[0], dde:GENX[g[0]].de[1], dfr:GENX[g[0]].fr[1], dit:GENX[g[0]].it[1]} : {})]));
+  const genDesc = k => { const g = GEN[k]; return g ? (g["d" + L.slice(0,2)] || g.den) : ""; };
+
+  /* Sistemas: clave → nombres y aviso que corresponde */
+  const SISTEMAS = [
+    ["dnd2024","D&D 2024 (5.5)","D&D 2024 (5.5)","wotc52"],
+    ["dnd5e","D&D 5ª edición (2014)","D&D 5th edition (2014)","wotc51"],
+    ["coc7","La llamada de Cthulhu 7ª","Call of Cthulhu 7th","chaosium"],
+    ["cocant","La llamada de Cthulhu (ediciones anteriores)","Call of Cthulhu (earlier editions)","chaosium"],
+    ["ratas","Ratas en las paredes","Ratas en las paredes (Rats in the Walls)","ratas"],
+    ["vtm5","Vampiro: La Mascarada 5ª","Vampire: The Masquerade 5th","darkpack"],
+    ["vtmclasico","Vampiro: La Mascarada (20.º aniversario y anteriores)","Vampire: The Masquerade (V20 and earlier)","darkpack"],
+    ["wod","Otros juegos del Mundo de Tinieblas","Other World of Darkness games","darkpack"],
+    ["pf2","Pathfinder / Starfinder","Pathfinder / Starfinder","paizo"],
+    ["aquelarre","Aquelarre","Aquelarre","otro"],
+    ["anillo","El Anillo Único","The One Ring","otro"],
+    ["osr","OSR y retroclones","OSR and retroclones","libre"],
+    ["fate","Fate","Fate","libre"],
+    ["pbta","Powered by the Apocalypse","Powered by the Apocalypse","otro"],
+    ["propio","Sistema propio o genérico","Original or generic system","propio"],
+    ["otro","Otro sistema","Other system","otro"]
+  ];
+  /* Nombres de sistema en alemán, francés e italiano (si no figuran, se usa el inglés) */
+  const SISX = {
+    dnd5e:{de:"D&D 5. Edition (2014)", fr:"D&D 5e édition (2014)", it:"D&D 5ª edizione (2014)"},
+    coc7:{de:"Call of Cthulhu 7. Edition", fr:"L’Appel de Cthulhu 7e édition", it:"Il Richiamo di Cthulhu 7ª edizione"},
+    cocant:{de:"Call of Cthulhu (frühere Editionen)", fr:"L’Appel de Cthulhu (éditions précédentes)", it:"Il Richiamo di Cthulhu (edizioni precedenti)"},
+    ratas:{de:"Ratas en las paredes (Rats in the Walls)", fr:"Ratas en las paredes (Rats in the Walls)", it:"Ratas en las paredes (Rats in the Walls)"},
+    vtm5:{de:"Vampire: Die Maskerade 5. Edition", fr:"Vampire : la Mascarade 5e édition", it:"Vampiri: la Masquerade 5ª edizione"},
+    vtmclasico:{de:"Vampire: Die Maskerade (V20 und früher)", fr:"Vampire : la Mascarade (V20 et antérieures)", it:"Vampiri: la Masquerade (V20 e precedenti)"},
+    wod:{de:"Andere Spiele der World of Darkness", fr:"Autres jeux du Monde des Ténèbres", it:"Altri giochi del Mondo di Tenebra"},
+    anillo:{de:"Der Eine Ring", fr:"L’Anneau Unique", it:"L’Unico Anello"},
+    osr:{de:"OSR und Retroklone", fr:"OSR et rétroclones", it:"OSR e retrocloni"},
+    propio:{de:"Eigenes oder generisches System", fr:"Système original ou générique", it:"Sistema proprio o generico"},
+    otro:{de:"Anderes System", fr:"Autre système", it:"Altro sistema"}
+  };
+  const SIS = Object.fromEntries(SISTEMAS.map(s => [s[0], Object.assign({es:s[1], en:s[2], de:s[2], fr:s[2], it:s[2], aviso:s[3]}, SISX[s[0]] || {})]));
+
+  const AVISOS = {
+    wotc52: {
+      es:"Las reglas proceden del SRD 5.2 de Wizards of the Coast, publicado con licencia CC BY 4.0, que debe citarse al reutilizarlas. Dungeons & Dragons es marca de Wizards of the Coast.",
+      en:"Rules come from Wizards of the Coast's SRD 5.2, released under CC BY 4.0, which must be credited when reused. Dungeons & Dragons is a trademark of Wizards of the Coast.",
+      txt:"This work includes material from the System Reference Document 5.2 (“SRD 5.2”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode."},
+    wotc51: {
+      es:"Las reglas proceden del SRD 5.1 de Wizards of the Coast, publicado con licencia CC BY 4.0, que debe citarse al reutilizarlas. Dungeons & Dragons es marca de Wizards of the Coast.",
+      en:"Rules come from Wizards of the Coast's SRD 5.1, released under CC BY 4.0, which must be credited when reused. Dungeons & Dragons is a trademark of Wizards of the Coast.",
+      txt:"This work includes material taken from the System Reference Document 5.1 (“SRD 5.1”) by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License available at https://creativecommons.org/licenses/by/4.0/legalcode."},
+    chaosium: {
+      es:"Contenido de fans no oficial para La llamada de Cthulhu, publicado según la Fan Material Policy de Chaosium. Los nombres y conceptos del juego pertenecen a Chaosium Inc.; los relatos originales de Lovecraft están en dominio público en España.",
+      en:"Unofficial fan content for Call of Cthulhu, released under Chaosium's Fan Material Policy. The game's names and concepts belong to Chaosium Inc.; Lovecraft's original stories are in the public domain in Spain.",
+      txt:"This scenario uses trademarks and/or copyrights owned by Chaosium Inc/Moon Design Publications LLC, which are used under Chaosium Inc’s Fan Material Policy. We are expressly prohibited from charging you to use or access this content. This scenario is not published, endorsed, or specifically approved by Chaosium Inc. For more information about Chaosium Inc’s products, please visit www.chaosium.com."},
+    ratas: {
+      es:"Ratas en las paredes es obra de Kobayashi (Les Livres d’Ours); la edición española es de The Hills Press. Según sus créditos, la mayor parte del texto del juego está bajo licencia CC BY 4.0, salvo el logotipo y las secciones que el libro excluye.",
+      en:"Ratas en las paredes (Rats in the Walls) is by Kobayashi (Les Livres d’Ours); the Spanish edition is by The Hills Press. According to its credits, most of the game's text is under CC BY 4.0, except the logo and the sections the book excludes."},
+    darkpack: {
+      es:"Contenido de fans no oficial del Mundo de Tinieblas, según el Dark Pack Agreement de Paradox Interactive.",
+      en:"Unofficial World of Darkness fan content, under Paradox Interactive's Dark Pack Agreement.",
+      txt:"Portions of the materials are the copyrights and trademarks of Paradox Interactive AB, and are used with permission. All rights reserved. For more information please visit worldofdarkness.com. This material is not official World of Darkness material."},
+    paizo: {
+      es:"Contenido de fans gratuito según la Community Use Policy de Paizo, o con reglas bajo licencia ORC, según indique el PDF.",
+      en:"Free fan content under Paizo's Community Use Policy, or with rules under the ORC licence, as stated in the PDF.",
+      txt:"This scenario uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo’s Community Use Policy (paizo.com/licenses/communityuse). We are expressly prohibited from charging you to use or access this content. This scenario is not published, endorsed, or specifically approved by Paizo. For more information about Paizo Inc. and Paizo products, visit paizo.com."},
+    libre: {
+      es:"El sistema se publica con licencia abierta; el PDF incluye la atribución que exige.",
+      en:"The system is released under an open licence; the PDF includes the attribution it requires."},
+    otro: {
+      es:"Partida original compatible con un juego de terceros. Solo se menciona el juego para indicar compatibilidad; sus marcas y textos pertenecen a sus editores, que pueden pedir su retirada.",
+      en:"Original scenario compatible with a third-party game. The game is named only to state compatibility; its trademarks and text belong to its publishers, who may request removal."},
+    propio: {
+      es:"Sistema y ambientación del propio autor.",
+      en:"System and setting by the author."}
+  };
+
+
+  const AVISOSX = {
+    wotc52:{de:"Die Regeln stammen aus dem SRD 5.2 von Wizards of the Coast, veröffentlicht unter CC BY 4.0, das bei Weiterverwendung genannt werden muss. Dungeons & Dragons ist eine Marke von Wizards of the Coast.",
+      fr:"Les règles proviennent du SRD 5.2 de Wizards of the Coast, publié sous CC BY 4.0, qui doit être cité en cas de réutilisation. Dungeons & Dragons est une marque de Wizards of the Coast.",
+      it:"Le regole provengono dall’SRD 5.2 di Wizards of the Coast, pubblicato con licenza CC BY 4.0, che va citato se riutilizzato. Dungeons & Dragons è un marchio di Wizards of the Coast."},
+    wotc51:{de:"Die Regeln stammen aus dem SRD 5.1 von Wizards of the Coast, veröffentlicht unter CC BY 4.0, das bei Weiterverwendung genannt werden muss. Dungeons & Dragons ist eine Marke von Wizards of the Coast.",
+      fr:"Les règles proviennent du SRD 5.1 de Wizards of the Coast, publié sous CC BY 4.0, qui doit être cité en cas de réutilisation. Dungeons & Dragons est une marque de Wizards of the Coast.",
+      it:"Le regole provengono dall’SRD 5.1 di Wizards of the Coast, pubblicato con licenza CC BY 4.0, che va citato se riutilizzato. Dungeons & Dragons è un marchio di Wizards of the Coast."},
+    chaosium:{de:"Inoffizieller Fan-Content für Call of Cthulhu, veröffentlicht gemäß der Fan Material Policy von Chaosium. Namen und Konzepte des Spiels gehören Chaosium Inc.; Lovecrafts Originalerzählungen sind in Spanien gemeinfrei.",
+      fr:"Contenu de fans non officiel pour L’Appel de Cthulhu, publié selon la Fan Material Policy de Chaosium. Les noms et concepts du jeu appartiennent à Chaosium Inc. ; les récits originaux de Lovecraft sont dans le domaine public en Espagne.",
+      it:"Contenuto dei fan non ufficiale per Il Richiamo di Cthulhu, pubblicato secondo la Fan Material Policy di Chaosium. Nomi e concetti del gioco appartengono a Chaosium Inc.; i racconti originali di Lovecraft sono di pubblico dominio in Spagna."},
+    ratas:{de:"Ratas en las paredes stammt von Kobayashi (Les Livres d’Ours); die spanische Ausgabe ist von The Hills Press. Laut den Credits steht der Großteil des Spieltextes unter CC BY 4.0, außer dem Logo und den vom Buch ausgenommenen Abschnitten.",
+      fr:"Ratas en las paredes est l’œuvre de Kobayashi (Les Livres d’Ours) ; l’édition espagnole est de The Hills Press. D’après ses crédits, l’essentiel du texte du jeu est sous CC BY 4.0, sauf le logo et les sections que le livre exclut.",
+      it:"Ratas en las paredes è opera di Kobayashi (Les Livres d’Ours); l’edizione spagnola è di The Hills Press. Secondo i crediti, la maggior parte del testo del gioco è sotto CC BY 4.0, tranne il logo e le sezioni escluse dal libro."},
+    darkpack:{de:"Inoffizieller Fan-Content der World of Darkness gemäß dem Dark Pack Agreement von Paradox Interactive.",
+      fr:"Contenu de fans non officiel du Monde des Ténèbres, selon le Dark Pack Agreement de Paradox Interactive.",
+      it:"Contenuto dei fan non ufficiale del Mondo di Tenebra, secondo il Dark Pack Agreement di Paradox Interactive."},
+    paizo:{de:"Kostenloser Fan-Content gemäß der Community Use Policy von Paizo oder mit Regeln unter der ORC-Lizenz, wie in der PDF angegeben.",
+      fr:"Contenu de fans gratuit selon la Community Use Policy de Paizo, ou avec des règles sous licence ORC, comme l’indique le PDF.",
+      it:"Contenuto dei fan gratuito secondo la Community Use Policy di Paizo, oppure con regole sotto licenza ORC, come indicato nel PDF."},
+    libre:{de:"Das System steht unter einer freien Lizenz; die PDF enthält die geforderte Namensnennung.",
+      fr:"Le système est publié sous licence libre ; le PDF inclut l’attribution qu’elle exige.",
+      it:"Il sistema è pubblicato con licenza aperta; il PDF include l’attribuzione richiesta."},
+    otro:{de:"Eigenes Szenario, kompatibel mit einem Spiel Dritter. Das Spiel wird nur genannt, um die Kompatibilität anzugeben; Marken und Texte gehören den Verlagen, die die Entfernung verlangen können.",
+      fr:"Partie originale compatible avec un jeu de tiers. Le jeu n’est cité que pour indiquer la compatibilité ; ses marques et textes appartiennent à leurs éditeurs, qui peuvent en demander le retrait.",
+      it:"Avventura originale compatibile con un gioco di terzi. Il gioco è citato solo per indicarne la compatibilità; marchi e testi appartengono ai loro editori, che possono chiederne la rimozione."},
+    propio:{de:"System und Welt stammen vom Autor.", fr:"Système et univers de l’auteur.", it:"Sistema e ambientazione dell’autore."}
+  };
+  Object.keys(AVISOSX).forEach(k => Object.assign(AVISOS[k], AVISOSX[k]));
+  const T = {
+    es: {
+      estado:{publicada:"Publicada", preparacion:"En preparación"},
+      idioma:{es:"Español", en:"Inglés", bi:"Bilingüe"},
+      publico:{tp:"TP", "12":"+12", "16":"+16", "18":"+18"},
+      publicoLargo:{tp:"Todos los públicos", "12":"+12", "16":"+16", "18":"+18 · temas adultos"},
+      any:"Cualquiera", choose:"Elige uno",
+      by:"por", view:"Ver ficha de", count:n => `${n} ${n === 1 ? "partida" : "partidas"}`,
+      stats:["Sistema","PJ","Sesiones","Público"],
+      facts:["Sistema","Jugadores","Sesiones","Nivel","Ambientación","Idioma","Páginas"],
+      warn:"Advertencias de contenido", onlyIn:n => `Resumen disponible solo en ${n.toLowerCase()}.`,
+      lic:{"CC BY-NC-SA 4.0":"Puedes compartirla y adaptarla gratis, citando al autor, sin fines comerciales y publicando tus versiones con la misma licencia.","CC BY-NC 4.0":"Puedes compartirla y adaptarla gratis, citando al autor y sin fines comerciales.","CC0 1.0":"El texto original del autor está dedicado al dominio público: puedes usarlo libremente, sin obligación de citar."},
+      licLink:"Texto de la licencia", notice:"Aviso del sistema", dl:"Descargar PDF", free:"Gratis", soon:"PDF disponible próximamente",
+      emptyNone:'El archivo acaba de abrir y todavía no hay partidas publicadas. <a href="#enviar">Envía la primera</a>.',
+      emptyFilter:'Ninguna partida coincide con la búsqueda. Prueba con menos filtros o <a href="#enviar">envía la tuya</a>.',
+      errHead:"Revisa el formulario: ", errDecl:"acepta las siete declaraciones", errGen:"elige entre uno y tres géneros",
+      errFile:"adjunta un único PDF de menos de 8 MB", errReq:"rellena los campos marcados con asterisco", errWarn:"añade advertencias de contenido",
+      preview:"El formulario es correcto. Esto es una vista previa: el envío real funcionará cuando la web esté publicada en Netlify."
+    },
+    en: {
+      estado:{publicada:"Published", preparacion:"In progress"},
+      idioma:{es:"Spanish", en:"English", bi:"Bilingual"},
+      publico:{tp:"All", "12":"12+", "16":"16+", "18":"18+"},
+      publicoLargo:{tp:"All ages", "12":"12+", "16":"16+", "18":"18+ · mature themes"},
+      any:"Any", choose:"Choose one",
+      by:"by", view:"View details for", count:n => `${n} ${n === 1 ? "scenario" : "scenarios"}`,
+      stats:["System","PCs","Sessions","Audience"],
+      facts:["System","Players","Sessions","Level","Setting","Language","Pages"],
+      warn:"Content warnings", onlyIn:n => `Summary available in ${n} only.`,
+      lic:{"CC BY-NC-SA 4.0":"You may share and adapt it for free, crediting the author, for non-commercial purposes, releasing your versions under the same licence.","CC BY-NC 4.0":"You may share and adapt it for free, crediting the author, for non-commercial purposes.","CC0 1.0":"The author's original text is dedicated to the public domain: you may use it freely, with no need to give credit."},
+      licLink:"Licence text", notice:"System notice", dl:"Download PDF", free:"Free", soon:"PDF coming soon",
+      emptyNone:'The archive has just opened and no scenarios have been published yet. <a href="#enviar">Submit the first one</a>.',
+      emptyFilter:'No scenario matches your search. Try fewer filters or <a href="#enviar">submit yours</a>.',
+      errHead:"Please check the form: ", errDecl:"accept all seven declarations", errGen:"choose one to three genres",
+      errFile:"attach a single PDF under 8 MB", errReq:"fill in the fields marked with an asterisk", errWarn:"add content warnings",
+      preview:"The form is valid. This is a preview: real submissions will work once the site is live on Netlify."
+    },
+    de: {
+      estado:{publicada:"Veröffentlicht", preparacion:"In Arbeit"},
+      idioma:{es:"Spanisch", en:"Englisch", bi:"Zweisprachig"},
+      publico:{tp:"Alle", "12":"ab 12", "16":"ab 16", "18":"ab 18"},
+      publicoLargo:{tp:"Alle Altersstufen", "12":"ab 12", "16":"ab 16", "18":"ab 18 · Themen für Erwachsene"},
+      any:"Beliebig", choose:"Bitte wählen",
+      by:"von", view:"Details ansehen:", count:n => `${n} ${n === 1 ? "Szenario" : "Szenarien"}`,
+      stats:["System","SC","Sitzungen","Publikum"],
+      facts:["System","Spieler","Sitzungen","Stufe","Schauplatz","Sprache","Seiten"],
+      warn:"Inhaltswarnungen", onlyIn:n => `Zusammenfassung nur auf ${n} verfügbar.`,
+      lic:{"CC BY-NC-SA 4.0":"Du darfst es kostenlos teilen und bearbeiten, mit Nennung des Autors, nicht kommerziell und unter derselben Lizenz für deine Fassungen.","CC BY-NC 4.0":"Du darfst es kostenlos teilen und bearbeiten, mit Nennung des Autors und nicht kommerziell.","CC0 1.0":"Der Originaltext des Autors ist gemeinfrei: Du darfst ihn frei nutzen, ohne Pflicht zur Namensnennung."},
+      licLink:"Lizenztext", notice:"Hinweis zum System", dl:"PDF herunterladen", free:"Kostenlos", soon:"PDF bald verfügbar",
+      emptyNone:'Das Archiv wurde gerade eröffnet, und es gibt noch keine veröffentlichten Szenarien. <a href="#enviar">Reiche das erste ein</a>.',
+      emptyFilter:'Kein Szenario passt zu deiner Suche. Versuche es mit weniger Filtern oder <a href="#enviar">reiche deines ein</a>.',
+      errHead:"Bitte prüfe das Formular: ", errDecl:"akzeptiere alle sieben Erklärungen", errGen:"wähle ein bis drei Genres",
+      errFile:"hänge eine einzelne PDF unter 8 MB an", errReq:"fülle die mit Sternchen markierten Felder aus", errWarn:"füge Inhaltswarnungen hinzu",
+      preview:"Das Formular ist gültig. Dies ist eine Vorschau: Echte Einreichungen funktionieren, sobald die Website auf Netlify online ist."
+    },
+    fr: {
+      estado:{publicada:"Publiée", preparacion:"En préparation"},
+      idioma:{es:"Espagnol", en:"Anglais", bi:"Bilingue"},
+      publico:{tp:"TP", "12":"12+", "16":"16+", "18":"18+"},
+      publicoLargo:{tp:"Tout public", "12":"12+", "16":"16+", "18":"18+ · thèmes adultes"},
+      any:"Indifférent", choose:"Choisissez",
+      by:"par", view:"Voir la fiche de", count:n => `${n} ${n === 1 ? "partie" : "parties"}`,
+      stats:["Système","PJ","Séances","Public"],
+      facts:["Système","Joueurs","Séances","Niveau","Cadre","Langue","Pages"],
+      warn:"Avertissements de contenu", onlyIn:n => `Résumé disponible uniquement en ${n.toLowerCase()}.`,
+      lic:{"CC BY-NC-SA 4.0":"Vous pouvez la partager et l’adapter gratuitement, en citant l’auteur, à des fins non commerciales et en publiant vos versions sous la même licence.","CC BY-NC 4.0":"Vous pouvez la partager et l’adapter gratuitement, en citant l’auteur et à des fins non commerciales.","CC0 1.0":"Le texte original de l’auteur est dédié au domaine public : vous pouvez l’utiliser librement, sans obligation de citer."},
+      licLink:"Texte de la licence", notice:"Mention du système", dl:"Télécharger le PDF", free:"Gratuit", soon:"PDF bientôt disponible",
+      emptyNone:'L’archive vient d’ouvrir et aucune partie n’a encore été publiée. <a href="#enviar">Proposez la première</a>.',
+      emptyFilter:'Aucune partie ne correspond à votre recherche. Essayez avec moins de filtres ou <a href="#enviar">proposez la vôtre</a>.',
+      errHead:"Vérifiez le formulaire : ", errDecl:"acceptez les sept déclarations", errGen:"choisissez un à trois genres",
+      errFile:"joignez un seul PDF de moins de 8 Mo", errReq:"remplissez les champs marqués d’un astérisque", errWarn:"ajoutez des avertissements de contenu",
+      preview:"Le formulaire est valide. Ceci est un aperçu : les envois réels fonctionneront une fois le site en ligne sur Netlify."
+    },
+    it: {
+      estado:{publicada:"Pubblicata", preparacion:"In preparazione"},
+      idioma:{es:"Spagnolo", en:"Inglese", bi:"Bilingue"},
+      publico:{tp:"Tutti", "12":"+12", "16":"+16", "18":"+18"},
+      publicoLargo:{tp:"Per tutti", "12":"+12", "16":"+16", "18":"+18 · temi per adulti"},
+      any:"Qualsiasi", choose:"Scegli",
+      by:"di", view:"Vedi la scheda di", count:n => `${n} ${n === 1 ? "avventura" : "avventure"}`,
+      stats:["Sistema","PG","Sessioni","Pubblico"],
+      facts:["Sistema","Giocatori","Sessioni","Livello","Ambientazione","Lingua","Pagine"],
+      warn:"Avvisi sui contenuti", onlyIn:n => `Riassunto disponibile solo in ${n.toLowerCase()}.`,
+      lic:{"CC BY-NC-SA 4.0":"Puoi condividerla e adattarla gratis, citando l’autore, senza fini commerciali e pubblicando le tue versioni con la stessa licenza.","CC BY-NC 4.0":"Puoi condividerla e adattarla gratis, citando l’autore e senza fini commerciali.","CC0 1.0":"Il testo originale dell’autore è dedicato al pubblico dominio: puoi usarlo liberamente, senza obbligo di citare."},
+      licLink:"Testo della licenza", notice:"Avviso del sistema", dl:"Scarica il PDF", free:"Gratis", soon:"PDF disponibile a breve",
+      emptyNone:'L’archivio ha appena aperto e non ci sono ancora avventure pubblicate. <a href="#enviar">Invia la prima</a>.',
+      emptyFilter:'Nessuna avventura corrisponde alla ricerca. Prova con meno filtri o <a href="#enviar">invia la tua</a>.',
+      errHead:"Controlla il modulo: ", errDecl:"accetta tutte e sette le dichiarazioni", errGen:"scegli da uno a tre generi",
+      errFile:"allega un unico PDF di meno di 8 MB", errReq:"compila i campi con l’asterisco", errWarn:"aggiungi gli avvisi sui contenuti",
+      preview:"Il modulo è corretto. Questa è un’anteprima: l’invio reale funzionerà quando il sito sarà pubblicato su Netlify."
+    }
+  };
+  const LICURL = {
+    "CC BY-NC-SA 4.0": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.",
+    "CC BY-NC 4.0": "https://creativecommons.org/licenses/by-nc/4.0/deed.",
+    "CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/deed."
+  };
+  const BADGE = {es:"ES", en:"EN", bi:"ES · EN"};
+  const LANGS = ["es","en","de","fr","it"];
+  let L = LANGS.includes(root.getAttribute("data-lang")) ? root.getAttribute("data-lang") : "es";
+  const t = () => T[L];
+  const sisName = a => a.sistema === "otro" && a.sistemaOtro ? a.sistemaOtro : (SIS[a.sistema] ? SIS[a.sistema][L] : (a.sistemaOtro || "—"));
+  const genName = k => GEN[k] ? GEN[k][L] : k;
+  const gens = a => Array.isArray(a.generos) ? a.generos.slice(0,3) : [];
+  const AGE = {tp:0, "12":12, "16":16, "18":18};
+
+  function summary(a){
+    const r = a.resumen;
+    if(r && typeof r === "object"){
+      const order = L === "es" ? ["es","en"] : L === "en" ? ["en","es"] : [L,"en","es"];
+      for(const k of order) if(r[k]) return {text:r[k], other: k === L ? null : k};
+      return {text:"", other:null};
+    }
+    const own = a.idioma === "bi" ? (L === "es" ? "es" : "en") : (a.idioma || "es");
+    return {text:r || "", other: own !== L ? own : null};
+  }
+
+  /* Selectores que se rellenan desde los datos */
+  function fillSelects(){
+    const fg = $("fGen"), fs = $("fSis"), ss = $("sistema"), keepG = fg.value, keepS = fs.value, keepSS = ss.value;
+    fg.innerHTML = `<option value="">${t().any}</option>` + GENEROS.map(g => `<option value="${g[0]}">${esc(genName(g[0]))}</option>`).join("");
+    fs.innerHTML = `<option value="">${t().any}</option>` + SISTEMAS.map(s => `<option value="${s[0]}">${esc(SIS[s[0]][L])}</option>`).join("");
+    ss.innerHTML = `<option value="">${t().choose}</option>` + SISTEMAS.map(s => `<option value="${s[0]}">${esc(SIS[s[0]][L])}</option>`).join("");
+    fg.value = keepG; fs.value = keepS; ss.value = keepSS;
+    const checked = new Set([...document.querySelectorAll('#genChips input:checked')].map(i => i.value));
+    $("genChips").innerHTML = GENEROS.map(g => `<label><input type="checkbox" name="generos" value="${g[0]}"${checked.has(g[0]) ? " checked" : ""}>${esc(genName(g[0]))}</label>`).join("");
+  }
+  function renderGenres(){
+    const sel = $("fGen").value;
+    $("genres").innerHTML = GENEROS.map(g => {
+      const n = DATA.filter(a => gens(a).includes(g[0])).length;
+      return `<button class="genre" type="button" data-g="${g[0]}" aria-pressed="${sel === g[0]}">
+        <span class="gtop"><b>${esc(genName(g[0]))}</b><span class="n">${n}</span></span>
+        <span class="d">${esc(genDesc(g[0]))}</span></button>`;
+    }).join("");
+  }
+  $("genres").addEventListener("click", e => {
+    const b = e.target.closest(".genre"); if(!b) return;
+    $("fGen").value = $("fGen").value === b.dataset.g ? "" : b.dataset.g;
+    render(); renderGenres();
+    if($("fGen").value) document.getElementById("catalogo").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  });
+
+  const dlg = $("dlg"); let current = null;
+  document.querySelectorAll("option[data-en]").forEach(o => { o.dataset.es = o.textContent; });
+  function applyLang(l, persist){
+    L = l;
+    root.setAttribute("data-lang", l); root.lang = l;
+    document.querySelectorAll("option[data-en]").forEach(o => { o.textContent = o.dataset[l]; });
+    document.querySelectorAll("[data-ph-es]").forEach(el => { el.placeholder = el.dataset["ph" + l[0].toUpperCase() + l[1]]; });
+    document.querySelectorAll(".hero .page").forEach(p => p.classList.toggle("active", p.lang === l));
+    document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.setlang === l));
+    $("idiomaContacto").value = l;
+    fillSelects(); renderGenres(); render();
+    if(persist){
+      try { localStorage.setItem("et-lang", l); } catch(e){}
+      try { const u = new URL(location.href); u.searchParams.set("lang", l); history.replaceState(null, "", u); } catch(e){}
+    }
+    if(dlg.open && current) openCard(current);
+  }
+  if(YOUTUBE){ document.querySelectorAll(".ytlink").forEach(a => a.href = YOUTUBE); document.querySelectorAll("[data-yt]").forEach(el => el.hidden = false); }
+  document.querySelectorAll("[data-setlang]").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.setlang, true)));
+
+  $("nPub").textContent = DATA.filter(a => a.estado === "publicada").length;
+  $("nPrep").textContent = DATA.filter(a => a.estado === "preparacion").length;
+  $("nSys").textContent = new Set(DATA.map(a => a.sistema === "otro" ? "otro:" + norm(a.sistemaOtro) : a.sistema)).size;
+  $("nGen").textContent = GENEROS.length;
+
+  /* Catálogo */
+  const ctrls = ["q","fGen","fSis","fIdioma","fDur","fPj","fPub","fLic","fOrden"].map($);
+  function matches(a){
+    const q = norm($("q").value.trim());
+    if(q){
+      const r = a.resumen && typeof a.resumen === "object" ? Object.values(a.resumen).join(" ") : a.resumen;
+      const hay = norm([a.titulo, a.autor, r, a.ambientacion, a.nivel, sisName(a), SIS[a.sistema] && SIS[a.sistema].es, SIS[a.sistema] && SIS[a.sistema].en,
+        ...gens(a).flatMap(g => GEN[g] ? [GEN[g].es, GEN[g].en] : [g]), ...(a.etiquetas || [])].join(" "));
+      if(!q.split(/\s+/).every(w => hay.includes(w))) return false;
+    }
+    if($("fGen").value && !gens(a).includes($("fGen").value)) return false;
+    if($("fSis").value && a.sistema !== $("fSis").value) return false;
+    const li = $("fIdioma").value;
+    if(li && a.idioma !== li && a.idioma !== "bi") return false;
+    const d = $("fDur").value;
+    if(d){ const [lo, hi] = d.split("-").map(Number); const s = +a.sesiones || 1; if(s < lo || s > (hi || lo)) return false; }
+    const p = $("fPj").value;
+    if(p){ const [lo, hi] = parseRange(a.jugadores); const v = +p;
+      if(v === 6){ if(hi < 6) return false; } else if(v < lo || v > hi) return false; }
+    const pu = $("fPub").value;
+    if(pu && (AGE[a.publico] ?? 18) > AGE[pu]) return false;
+    if($("fLic").value && a.licencia !== $("fLic").value) return false;
+    return true;
+  }
+  function sorted(list){
+    const o = $("fOrden").value;
+    return list.sort((x, y) =>
+      o === "titulo" ? x.titulo.localeCompare(y.titulo, L) :
+      o === "corta" ? (+x.sesiones || 1) - (+y.sesiones || 1) :
+      String(y.fecha).localeCompare(String(x.fecha)));
+  }
+  function tagsFor(a, all){
+    const g = all ? gens(a) : gens(a).slice(0,2);
+    return `<span class="tag lang" title="${esc(t().idioma[a.idioma] || "")}">${esc(BADGE[a.idioma] || "ES")}</span>` +
+      `<span class="status ${esc(a.estado)}">${esc(t().estado[a.estado] || a.estado)}</span>` +
+      g.map(x => `<span class="tag">${esc(genName(x))}</span>`).join("");
+  }
+  function render(){
+    const list = sorted(DATA.filter(matches));
+    const s = t().stats;
+    $("grid").innerHTML = list.map(a => {
+      const sm = summary(a);
+      return `
+      <button class="card" type="button" data-id="${esc(a.id)}" aria-label="${esc(t().view)} ${esc(a.titulo)}">
+        <div class="top">
+          <div class="tags">${tagsFor(a)}</div>
+          <h3>${esc(a.titulo)}</h3>
+          <span class="by">${esc(t().by)} ${esc(a.autor)}${a.ambientacion ? " · " + esc(a.ambientacion) : ""}</span>
+          <p class="sum">${esc(sm.text)}</p>
+          ${sm.other ? `<span class="note">${esc(t().onlyIn(t().idioma[sm.other]))}</span>` : ""}
+        </div>
+        <dl class="stats">
+          <div><dt>${s[0]}</dt><dd>${esc(sisName(a))}</dd></div>
+          <div><dt>${s[1]}</dt><dd>${esc(a.jugadores)}</dd></div>
+          <div><dt>${s[2]}</dt><dd>${esc(a.sesiones)}</dd></div>
+          <div><dt>${s[3]}</dt><dd>${esc(t().publico[a.publico] || "—")}</dd></div>
+        </dl>
+      </button>`;}).join("");
+    $("count").textContent = DATA.length ? t().count(list.length) : "";
+    $("empty").innerHTML = DATA.length ? t().emptyFilter : t().emptyNone;
+    $("empty").hidden = list.length > 0;
+  }
+  ctrls.forEach(c => c.addEventListener(c.id === "q" ? "input" : "change", () => { render(); if(c.id === "fGen") renderGenres(); }));
+  $("reset").addEventListener("click", () => { $("q").value = ""; ctrls.slice(1, 8).forEach(c => c.value = ""); $("fOrden").value = "reciente"; render(); renderGenres(); });
+
+  /* Ficha */
+  function openCard(id){
+    const a = DATA.find(x => x.id === id); if(!a) return;
+    current = id;
+    const sm = summary(a), f = t().facts;
+    $("dTags").innerHTML = tagsFor(a, true) + (a.publico ? `<span class="tag age">${esc(t().publicoLargo[a.publico])}</span>` : "") + (a.etiquetas || []).map(x => `<span class="tag">${esc(x)}</span>`).join("");
+    $("dTitle").textContent = a.titulo;
+    $("dBy").textContent = t().by + " " + a.autor;
+    $("dSum").innerHTML = esc(sm.text) + (sm.other ? ` <span class="note">${esc(t().onlyIn(t().idioma[sm.other]))}</span>` : "");
+    $("dFacts").innerHTML = [
+      [f[0], sisName(a)], [f[1], a.jugadores], [f[2], a.sesiones], [f[3], a.nivel || "—"],
+      [f[4], a.ambientacion || "—"], [f[5], t().idioma[a.idioma] || "—"], [f[6], a.paginas || "—"]
+    ].map(([k, v]) => `<div><dt class="label">${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+    const w = a.advertencias || [];
+    $("dWarn").hidden = !w.length;
+    $("dWarn").innerHTML = w.length ? `<span class="label">${esc(t().warn)}</span><br>${esc(w.join(" · "))}` : "";
+    const lu = LICURL[a.licencia] ? LICURL[a.licencia] + L : "#licencias";
+    const av = AVISOS[(SIS[a.sistema] || {}).aviso || "otro"];
+    $("dLic").innerHTML = `<p><b>${esc(a.licencia)}.</b> ${esc(t().lic[a.licencia] || "")} <a href="${lu}" target="_blank" rel="noopener">${esc(t().licLink)}</a></p>` +
+      `<p><span class="label">${esc(t().notice)}</span><br>${esc(av[L])}</p>` + (av.txt ? `<blockquote>${esc(av.txt)}</blockquote>` : "");
+    $("dAct").innerHTML = a.pdf
+      ? `<a class="btn primary" href="${esc(a.pdf)}" download>${esc(t().dl)}</a><span class="label">${esc(t().free)} · ${esc(a.licencia)}</span>`
+      : `<button class="btn" type="button" disabled>${esc(t().soon)}</button>`;
+    if(!dlg.open){ if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); }
+  }
+  $("grid").addEventListener("click", e => { const c = e.target.closest(".card"); if(c) openCard(c.dataset.id); });
+  $("dClose").addEventListener("click", () => dlg.close ? dlg.close() : dlg.removeAttribute("open"));
+  dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", () => { current = null; });
+
+  applyLang(L, false);
+  const h = location.hash.slice(1);
+  if(h && DATA.some(a => a.id === h)) openCard(h);
+
+  /* Formulario */
+  const form = $("envio"), err = $("formErr"), ok = $("formOk");
+  const preview = window.self !== window.top || location.protocol === "file:";
+  $("sistema").addEventListener("change", () => {
+    const o = $("sistema").value === "otro";
+    $("otroWrap").hidden = !o; $("sistemaOtro").required = o;
+  });
+  $("genChips").addEventListener("change", e => {
+    const on = document.querySelectorAll('#genChips input:checked');
+    if(on.length > 3 && e.target.checked) e.target.checked = false;
+  });
+  form.addEventListener("submit", e => {
+    err.hidden = true; ok.hidden = true;
+    const problems = [], m = [];
+    form.querySelectorAll("[required]").forEach(el => {
+      if(el.type === "radio" || el.type === "checkbox") return;
+      if(!el.value.trim()) problems.push(el);
+    });
+    if(problems.length) m.push(t().errReq);
+    const ng = document.querySelectorAll('#genChips input:checked').length;
+    if(ng < 1 || ng > 3){ problems.push(document.querySelector('#genChips input')); m.push(t().errGen); }
+    const horror = [...document.querySelectorAll('#genChips input:checked')].some(i => ["terror","cosmico","gotico"].includes(i.value));
+    if((horror || ["16","18"].includes($("publico").value)) && !$("advertencias").value.trim()){ problems.push($("advertencias")); m.push(t().errWarn); }
+    const file = $("archivo").files[0];
+    if(file && (file.size > 8 * 1024 * 1024 || !/\.pdf$/i.test(file.name))){ problems.push($("archivo")); m.push(t().errFile); }
+    if($("email").value && !$("email").checkValidity()){ problems.push($("email")); if(!m.includes(t().errReq)) m.push(t().errReq); }
+    const decl = [...form.querySelectorAll('.check input[required]')].filter(c => !c.checked);
+    if(decl.length){ problems.push(decl[0]); m.push(t().errDecl); }
+    if(problems.length){
+      e.preventDefault();
+      err.textContent = t().errHead + [...new Set(m)].join("; ") + ".";
+      err.hidden = false;
+      problems[0].focus();
+      return;
+    }
+    if(preview){ e.preventDefault(); ok.textContent = t().preview; ok.hidden = false; }
+  });
+})();
+</script>
+</body>
+</html>
