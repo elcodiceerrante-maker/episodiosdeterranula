@@ -6,10 +6,15 @@
 <title>Episodios de Terranula</title>
 <meta name="description" content="Archivo comunitario de partidas de rol gratuitas para cualquier sistema: terror, terror cósmico, fantasía, aventura épica, comedia y más. A community archive of free tabletop RPG scenarios for any system.">
 <meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Terranula">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="fonts/fonts.css">
 <script>
 /* Idioma inicial: ?lang= → preferencia guardada → idioma del navegador */
 (function(){
@@ -227,6 +232,14 @@ footer .marks img.dp{height:48px; width:48px}
 #intro .skip{position:absolute; right:max(16px, env(safe-area-inset-right,0px)); bottom:max(20px, env(safe-area-inset-bottom,0px)); font:500 .78rem/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.75); background:transparent; border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:.55rem .9rem; cursor:pointer}
 #intro .skip:hover{color:#fff; border-color:#fff}
 html.intro-on, html.intro-on body{overflow:hidden}
+
+/* Aplicación instalable */
+.install{display:inline-flex; align-items:center; gap:.35rem; font:500 .78rem/1 var(--mono); letter-spacing:.04em; border:1px solid var(--line2); background:transparent; color:var(--ink); padding:.45rem .8rem; border-radius:99px; cursor:pointer}
+.install:hover{border-color:var(--ink)}
+#dlgApp{max-width:26rem; width:calc(100% - 2rem); padding:1.4rem 1.5rem; border:1px solid var(--line2); border-radius:6px; background:var(--surface); color:var(--ink)}
+#dlgApp::backdrop{background:rgba(0,0,0,.8)}
+#dlgApp h3{margin-bottom:.6rem}
+#dlgApp ol{padding-left:1.2rem; line-height:1.5; margin:0 0 1rem}
 </style>
 </head>
 <body>
@@ -282,6 +295,7 @@ html.intro-on, html.intro-on body{overflow:hidden}
       <li data-yt hidden><a class="ytlink" target="_blank" rel="noopener">YouTube</a></li>
       <li><a href="#legal"><span lang="es">Aviso legal</span><span lang="en">Legal</span><span lang="de">Impressum</span><span lang="fr">Mentions légales</span><span lang="it">Note legali</span></a></li>
     </ul>
+    <button type="button" class="install" id="btnInstall" hidden><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span lang="es">Instalar la app</span><span lang="en">Install the app</span><span lang="de">App installieren</span><span lang="fr">Installer l’appli</span><span lang="it">Installa l’app</span></button>
     <div class="langs" role="group" aria-label="Idioma / Language">
       <button type="button" data-setlang="es" aria-pressed="true" title="Español">ES</button>
       <button type="button" data-setlang="en" aria-pressed="false" title="English">EN</button>
@@ -654,12 +668,22 @@ html.intro-on, html.intro-on body{overflow:hidden}
     </div></details>
     <details id="privacidad"><summary><span lang="es">Política de privacidad</span><span lang="en">Privacy policy</span><span lang="de">Datenschutzerklärung</span><span lang="fr">Politique de confidentialité</span><span lang="it">Informativa sulla privacy</span></summary><div class="in">
       <p lang="es">Responsable: Jorge Gómez Vaello. Solo tratamos el correo y el nombre que facilitas al enviar una partida, con la finalidad de gestionar la revisión y comunicarte el resultado. La base jurídica es tu consentimiento, que solo pueden prestar por sí mismas las personas de 14 años o más (art. 7 de la Ley Orgánica 3/2018). El nombre o seudónimo aparecerá en los créditos de la partida; el correo nunca se publica ni se cede a terceros, salvo al proveedor que aloja los formularios de la web (Netlify, Inc.), que actúa como encargado del tratamiento. Conservamos el correo mientras la partida siga publicada. Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <b>episodiosdeterranula@gmail.com</b>, y reclamar ante la Agencia Española de Protección de Datos.</p>
-      <p lang="es"><b>Cookies.</b> La web no usa cookies de análisis, de seguimiento ni de publicidad. Solo guarda en tu navegador el idioma que eliges, para recordarlo en tu próxima visita, y, mientras dura la visita, que ya has visto la animación de entrada; son datos técnicos que no salen de tu dispositivo.</p>
+      <p lang="es"><b>Cookies.</b> La web no usa cookies de análisis, de seguimiento ni de publicidad. Solo guarda en tu navegador el idioma que eliges, para recordarlo en tu próxima visita, y, mientras dura la visita, que ya has visto la animación de entrada; son datos técnicos que no salen de tu dispositivo. Además, para que la web funcione sin conexión y pueda instalarse como aplicación, tu navegador guarda una copia de sus páginas y de las partidas que abras; esa copia tampoco sale de tu dispositivo y puedes borrarla desde los ajustes del navegador. Las tipografías se sirven desde la propia web, sin conectar con servicios de terceros.</p>
       <p lang="en">Data controller: Jorge Gómez Vaello. We only process the email address and name you provide when submitting a scenario, in order to handle the review and tell you the outcome. The legal basis is your consent, which can only be given personally by people aged 14 or over (art. 7 of Spanish Organic Law 3/2018). Your name or pen name will appear in the scenario's credits; your email is never published or shared with third parties, except the provider that hosts the site's forms (Netlify, Inc.), acting as data processor. We keep your email for as long as the scenario remains published. You may exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to <b>episodiosdeterranula@gmail.com</b>, and you may lodge a complaint with the Spanish Data Protection Agency (AEPD).</p><p lang="de">Verantwortlicher: Jorge Gómez Vaello. Wir verarbeiten nur die E-Mail-Adresse und den Namen, die du beim Einreichen eines Szenarios angibst, um die Prüfung durchzuführen und dir das Ergebnis mitzuteilen. Rechtsgrundlage ist deine Einwilligung, die nur Personen ab 14 Jahren selbst erteilen können (Art. 7 des spanischen Organgesetzes 3/2018). Dein Name oder Pseudonym erscheint in den Credits des Szenarios; deine E-Mail wird nie veröffentlicht oder an Dritte weitergegeben, außer an den Anbieter, der die Formulare der Website hostet (Netlify, Inc.) und als Auftragsverarbeiter handelt. Wir speichern deine E-Mail, solange das Szenario veröffentlicht bleibt. Du kannst deine Rechte auf Auskunft, Berichtigung, Löschung, Widerspruch, Einschränkung und Übertragbarkeit ausüben, indem du an <b>episodiosdeterranula@gmail.com</b> schreibst, und dich bei der spanischen Datenschutzbehörde (AEPD) beschweren.</p><p lang="fr">Responsable du traitement : Jorge Gómez Vaello. Nous ne traitons que l’adresse e-mail et le nom que vous fournissez en proposant une partie, afin d’assurer la relecture et de vous en communiquer le résultat. La base juridique est votre consentement, que seules les personnes de 14 ans ou plus peuvent donner elles-mêmes (art. 7 de la loi organique espagnole 3/2018). Votre nom ou pseudonyme apparaîtra dans les crédits de la partie ; votre e-mail n’est jamais publié ni cédé à des tiers, sauf au prestataire qui héberge les formulaires du site (Netlify, Inc.), agissant en tant que sous-traitant. Nous conservons votre e-mail tant que la partie reste publiée. Vous pouvez exercer vos droits d’accès, de rectification, d’effacement, d’opposition, de limitation et de portabilité en écrivant à <b>episodiosdeterranula@gmail.com</b>, et introduire une réclamation auprès de l’autorité espagnole de protection des données (AEPD).</p><p lang="it">Titolare del trattamento: Jorge Gómez Vaello. Trattiamo solo l’e-mail e il nome che fornisci inviando un’avventura, per gestire la revisione e comunicarti l’esito. La base giuridica è il tuo consenso, che possono prestare da sole solo le persone dai 14 anni in su (art. 7 della legge organica spagnola 3/2018). Il nome o pseudonimo comparirà nei crediti dell’avventura; l’e-mail non viene mai pubblicata né ceduta a terzi, salvo al fornitore che ospita i moduli del sito (Netlify, Inc.), che agisce come responsabile del trattamento. Conserviamo l’e-mail finché l’avventura resta pubblicata. Puoi esercitare i diritti di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità scrivendo a <b>episodiosdeterranula@gmail.com</b> e presentare reclamo all’Autorità spagnola per la protezione dei dati (AEPD).</p>
-      <p lang="en"><b>Cookies.</b> The site uses no analytics, tracking or advertising cookies. It only stores in your browser the language you choose, to remember it on your next visit, and, for the length of your visit, that you have already seen the opening animation; this technical data never leaves your device.</p><p lang="de"><b>Cookies.</b> Die Website verwendet keine Analyse-, Tracking- oder Werbe-Cookies. Sie speichert in deinem Browser nur die gewählte Sprache, um sie bei deinem nächsten Besuch zu behalten, und für die Dauer des Besuchs, dass du die Eingangsanimation schon gesehen hast; diese technischen Angaben verlassen dein Gerät nie.</p><p lang="fr"><b>Cookies.</b> Le site n’utilise aucun cookie d’analyse, de suivi ou de publicité. Il enregistre seulement dans votre navigateur la langue choisie, pour la retenir lors de votre prochaine visite, et, le temps de la visite, que vous avez déjà vu l’animation d’ouverture ; ces données techniques ne quittent jamais votre appareil.</p><p lang="it"><b>Cookie.</b> Il sito non usa cookie di analisi, tracciamento o pubblicità. Salva nel tuo browser solo la lingua scelta, per ricordarla alla prossima visita, e, per la durata della visita, che hai già visto l’animazione iniziale; sono dati tecnici che non lasciano mai il tuo dispositivo.</p>
+      <p lang="en"><b>Cookies.</b> The site uses no analytics, tracking or advertising cookies. It only stores in your browser the language you choose, to remember it on your next visit, and, for the length of your visit, that you have already seen the opening animation; this technical data never leaves your device. In addition, so that the site works offline and can be installed as an app, your browser keeps a copy of its pages and of the scenarios you open; that copy never leaves your device either, and you can delete it from your browser settings. Fonts are served from the site itself, without contacting third-party services.</p><p lang="de"><b>Cookies.</b> Die Website verwendet keine Analyse-, Tracking- oder Werbe-Cookies. Sie speichert in deinem Browser nur die gewählte Sprache, um sie bei deinem nächsten Besuch zu behalten, und für die Dauer des Besuchs, dass du die Eingangsanimation schon gesehen hast; diese technischen Angaben verlassen dein Gerät nie. Damit die Website auch offline funktioniert und sich als App installieren lässt, speichert dein Browser außerdem eine Kopie ihrer Seiten und der Szenarien, die du öffnest; auch diese Kopie verlässt dein Gerät nie, und du kannst sie in den Browsereinstellungen löschen. Die Schriften werden von der Website selbst geladen, ohne Dienste Dritter.</p><p lang="fr"><b>Cookies.</b> Le site n’utilise aucun cookie d’analyse, de suivi ou de publicité. Il enregistre seulement dans votre navigateur la langue choisie, pour la retenir lors de votre prochaine visite, et, le temps de la visite, que vous avez déjà vu l’animation d’ouverture ; ces données techniques ne quittent jamais votre appareil. Par ailleurs, pour que le site fonctionne hors connexion et puisse s’installer comme une application, votre navigateur conserve une copie de ses pages et des parties que vous ouvrez ; cette copie ne quitte pas non plus votre appareil et vous pouvez l’effacer depuis les réglages du navigateur. Les polices sont servies par le site lui-même, sans faire appel à des services tiers.</p><p lang="it"><b>Cookie.</b> Il sito non usa cookie di analisi, tracciamento o pubblicità. Salva nel tuo browser solo la lingua scelta, per ricordarla alla prossima visita, e, per la durata della visita, che hai già visto l’animazione iniziale; sono dati tecnici che non lasciano mai il tuo dispositivo. Inoltre, perché il sito funzioni anche offline e si possa installare come app, il tuo browser conserva una copia delle sue pagine e delle avventure che apri; neanche questa copia lascia il tuo dispositivo e puoi cancellarla dalle impostazioni del browser. I caratteri sono serviti dal sito stesso, senza collegarsi a servizi di terzi.</p>
     </div></details>
   </div>
 </section>
+
+<dialog id="dlgApp" aria-labelledby="appTitle">
+  <h3 id="appTitle"><span lang="es">Instalar Episodios de Terranula</span><span lang="en">Install Episodios de Terranula</span><span lang="de">Episodios de Terranula installieren</span><span lang="fr">Installer Episodios de Terranula</span><span lang="it">Installa Episodios de Terranula</span></h3>
+  <ol lang="es"><li>Toca el botón <b>Compartir</b> de Safari (el cuadrado con una flecha hacia arriba).</li><li>Elige <b>Añadir a pantalla de inicio</b>.</li><li>Pulsa <b>Añadir</b>. El icono aparecerá junto a tus otras apps.</li></ol>
+  <ol lang="en"><li>Tap Safari’s <b>Share</b> button (the square with an arrow pointing up).</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. The icon will appear with your other apps.</li></ol>
+  <ol lang="de"><li>Tippe in Safari auf <b>Teilen</b> (das Quadrat mit dem Pfeil nach oben).</li><li>Wähle <b>Zum Home-Bildschirm</b>.</li><li>Tippe auf <b>Hinzufügen</b>. Das Symbol erscheint neben deinen anderen Apps.</li></ol>
+  <ol lang="fr"><li>Touchez le bouton <b>Partager</b> de Safari (le carré avec une flèche vers le haut).</li><li>Choisissez <b>Sur l’écran d’accueil</b>.</li><li>Touchez <b>Ajouter</b>. L’icône apparaîtra avec vos autres applis.</li></ol>
+  <ol lang="it"><li>Tocca il pulsante <b>Condividi</b> di Safari (il quadrato con la freccia verso l’alto).</li><li>Scegli <b>Aggiungi alla schermata Home</b>.</li><li>Tocca <b>Aggiungi</b>. L’icona comparirà accanto alle altre app.</li></ol>
+  <form method="dialog"><button class="btn primary"><span lang="es">Entendido</span><span lang="en">Got it</span><span lang="de">Verstanden</span><span lang="fr">Compris</span><span lang="it">Ho capito</span></button></form>
+</dialog>
 
 <footer>
   <span class="marks"><img src="isotipo-tl.png" alt="" width="35" height="40"><img class="dp" src="darkpack.png" alt="Dark Pack" width="48" height="48"><span>Episodios de Terranula · episodiosdeterranula@gmail.com<span data-yt hidden> · <a class="ytlink" target="_blank" rel="noopener"><span lang="es">Canal de YouTube</span><span lang="en">YouTube channel</span><span lang="de">YouTube-Kanal</span><span lang="fr">Chaîne YouTube</span><span lang="it">Canale YouTube</span></a></span></span></span>
@@ -1128,6 +1152,24 @@ html.intro-on, html.intro-on body{overflow:hidden}
       return;
     }
     if(preview){ e.preventDefault(); ok.textContent = t().preview; ok.hidden = false; }
+  });
+})();
+</script>
+<script>
+/* Aplicación instalable: service worker y botón «Instalar la app» */
+(function(){
+  if("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+  const btn = document.getElementById("btnInstall"), dlgApp = document.getElementById("dlgApp");
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  if(standalone) return;
+  let deferred = null;
+  window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; btn.hidden = false; });
+  window.addEventListener("appinstalled", () => { btn.hidden = true; deferred = null; });
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if(ios) btn.hidden = false;
+  btn.addEventListener("click", async () => {
+    if(deferred){ deferred.prompt(); try { await deferred.userChoice; } catch(e){} deferred = null; btn.hidden = true; }
+    else if(ios && dlgApp.showModal) dlgApp.showModal();
   });
 })();
 </script>
